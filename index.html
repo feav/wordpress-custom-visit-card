@@ -1,0 +1,72 @@
+<!Doctype html>
+<html>
+	<head>
+		<title>Plugin</title>
+		<link rel="stylesheet" href="assets/css/style.css">
+	</head>
+	<body>
+		<main>
+			<div class="header">
+				<ul>
+					<li>
+						<select class="fonts-list">
+							<option>Police</option>
+							<option>Arial</option>
+							<option>Sans Serif</option>
+							<option>Serif</option>
+						</select>
+					</li>
+
+					<li>
+						<img id="color-wheel" src="assets/images/color_wheel.png" />
+					</li>
+
+					<li><i class="fas fa-font"></i></li>
+					<li><i class="fas fa-bold"></i></li>
+					<li><i class="fas fa-italic"></i></li>
+
+					<li><i class="fas fa-align-left"></i></li>
+					<li><i class="fas fa-align-right"></i></li>
+					<li><i class="fas fa-align-justify"></i></li>
+				</ul>
+			</div>
+			<div class="main-content">
+				<div class="side">
+					<div class="zoom">
+						<div class="less"><span>-</span></div>
+						<span class="text">ZOOM</span>
+						<div class="more"><span>+</span></div>
+					</div>
+					<div class="options">
+						<span class="item">RECTO</span>
+						<span class="item">VERSO</span>
+						<span class="item">VARTON REPAS</span>
+						<span class="item">ETIQUETTE</span>
+					</div>
+					<div>
+						<button class="btn">ENREGISTRER <i class="fas fa-save"></i></button>
+						<button class="btn">APERCU PDF <i class="fas fa-eye"></i></button>
+						<button class="btn btn-add">AJOUTER AU PANIER</button>
+					</div>
+					<div class="card-border">
+						<hr class="solid" /><span>FORMAT FINI</span>
+					</div>
+					<div class="card-border">
+						<hr class="dashed" /><span>ZONE TRANQUILLE</span>
+					</div>
+				</div>
+				<div class="rendering">
+					<img src="assets/images/default.jpg" />
+					<div class="border-solid"></div>
+					<div class="border-dashed"></div>
+				</div>
+			</div>
+		</main>
+		<script
+			src="https://code.jquery.com/jquery-3.4.1.min.js"
+			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			crossorigin="anonymous">
+		</script>
+		<script type="text/javascript" src="assets/js/script.js"></script>
+	</body>
+</html>
