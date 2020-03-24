@@ -47,6 +47,7 @@ body {
 .main-content {
 	display: flex;
 	margin: 1em;
+	justify-content: space-around;
 }
 
 .main-content .side {
@@ -105,30 +106,31 @@ body {
 .main-content .rendering {
 	height: 420px;
 	overflow: hidden;
+	width: 50%;
 	position: relative;
 	cursor: grab;
 }
 
 
-.main-content .rendering:hover img {
+/*.main-content .rendering:hover img {
     -ms-transform: scale(1.2);
     -moz-transform: scale(1.2);
     -webkit-transform: scale(1.2);
     -o-transform: scale(1.2);
     transform: scale(1.2);
-}
+}*/
 
 .main-content .rendering img {
-	height: 100%;
+/*	height: 100%;
 	height: 100%;
 	-webkit-transition: all .5s;
     -moz-transition: all .5s;
     -o-transition: all .5s;
-    transition: all .5s;
+    transition: all .5s;*/
 }
 
 .main-content .rendering .border-solid {
-	position: absolute;
+	/*position: absolute;
 	top: 0;
 	bottom: 0;
 	height: 99%;
@@ -139,11 +141,11 @@ body {
   	margin-left: auto; 
   	margin-right: auto;
   	margin-top: auto;
-  	margin-bottom: auto;
+  	margin-bottom: auto;*/
 }
 
 .main-content .rendering .border-dashed {
-	position: absolute;
+	/*position: absolute;
 	top: 0;
 	bottom: 0;
 	height: 97%;
@@ -154,7 +156,7 @@ body {
   	margin-left: auto; 
   	margin-right: auto;
   	margin-top: auto;
-  	margin-bottom: auto;
+  	margin-bottom: auto;*/
 }
 
 
@@ -164,8 +166,8 @@ body {
     width: 100%;
     background: none;
     border: 1px solid #c1c1c1;
-    height: 36px;
-    line-height: 36px;
+    height: max-content;
+    line-height: 0;
     margin: 10px 0;
     color: rgb(101, 101, 101);
     outline: none;
@@ -199,4 +201,71 @@ body {
 
 .card-border hr.dashed {
 	border-top: 1px dashed #000;
+}
+
+
+/*
+
+RENDERING 
+
+*/
+
+h3{
+                margin: 30px 0 0 0;
+            }
+            p{
+                margin: 0
+            }
+            pre{
+                margin: 0;
+                color : #555;
+            }
+            .rect {
+                height: 100px;
+                width : 150px;
+                /*background : #ccc;*/
+                position: absolute;
+                top: 10px;
+                left: 10px;
+
+            }
+            
+            .custom-handlers.clayfy-top:after,
+            .custom-handlers.clayfy-bottom:after,
+            .custom-handlers.clayfy-left:after,
+            .custom-handlers.clayfy-right:after
+            {
+                content: '';
+                position: absolute;
+                height: 2px;
+                top:0;left:0;
+                width:100%;
+                background: red;
+            }
+            .custom-handlers.clayfy-bottom:after{
+                top:auto; bottom: 0;
+            }
+            .custom-handlers.clayfy-left:after{
+                width:2px; height:100%;
+            }
+            .custom-handlers.clayfy-right:after{
+                width:2px; height:100%;
+                right: 0; left:auto;
+            }
+            .custom-handlers.right:after,
+            .custom-handlers.left:after
+            {
+                height: 100%;
+            }
+
+            
+            #demo-5{
+                border: 4px solid #38c429;
+                overflow:scroll
+            }
+            #demo-6{
+                padding: 10px;
+            }
+.container{
+    position: relative;
 }
