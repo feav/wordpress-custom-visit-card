@@ -227,20 +227,24 @@ h3{
                 position: absolute;
                 top: 10px;
                 left: 10px;
-
+                overflow: hidden;
             }
             
             .custom-handlers.clayfy-top:after,
             .custom-handlers.clayfy-bottom:after,
             .custom-handlers.clayfy-left:after,
             .custom-handlers.clayfy-right:after
-            {
-                content: '';
-                position: absolute;
-                height: 2px;
-                top:0;left:0;
-                width:100%;
-                background: red;
+            {    
+            	content: '';
+			    position: absolute;
+			    height: 2px;
+			    top: 0;
+			    left: 0;
+			    width: 100%;
+			    border: 1px solid #009688;
+			    background: #ffffff;
+			    /*box-shadow: 1px 0px 1px 0px black;*/
+			}
             }
             .custom-handlers.clayfy-bottom:after{
                 top:auto; bottom: 0;

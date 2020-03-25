@@ -38,9 +38,33 @@
 			// add_action('manage_'.$this->post_type.'_posts_custom_column', array(&$this, 'custom_visit_card_columns'), 15, 3);
 			// add_filter('manage_'.$this->post_type.'_posts_columns', array(&$this, 'visit_card_columns'), 15, 1);
 			//add_filter( 'cron_schedules', array(&$this,'add_cron_interval') );
+			add_action( 'wp_ajax_visit_card_ajax_request', array(&$this,'ajax_callback') );
+  			add_action( 'wp_ajax_nopriv_visit_card_ajax_request', array(&$this,'ajax_callback') );
 
 	    }  /* Filter the single_template with our custom function*/
 
+		function ajax_callback() {
+		    $name	= isset($_POST['name'])?trim($_POST['name']):"";
+		    $args = array(
+			    'author' => get_current_user_id(),
+			    'post_type' => 'attachment',
+			    'post_status'=>array('inherit','publish','future')
+			);
+			$query = new WP_Query( $args );
+			$imgs =   array( );
+			if ( $query->have_posts() ) : 
+				while ( $query->have_posts() ) : $query->the_post(); 
+					$imgs[] = array(
+						'id' => get_the_ID(),
+						'image'=> wp_get_attachment_image_src(get_the_ID(), 'full')[0],
+						'image_icon'=> wp_get_attachment_image_src(get_the_ID())[0],
+						'url'=>get_the_permalink()
+					);
+ 				endwhile; 
+ 			endif; 
+ 			echo json_encode($imgs);
+		    exit;
+		  }
 		function custom_visit_card_template($single) {
 		    global $post;
 		    // echo WPCVC_DIR.'template/html/front-custon-visit-card.php';
