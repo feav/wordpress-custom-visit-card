@@ -101,8 +101,8 @@
             </div>
             <div class="media-option">
                 <span class="close" onclick="closeModalVC()">x</span>
-                <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg">
-                <button>Utiliser cette image</button>
+                <img id="selected-image" width="100%" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg">
+                <button id="addImageToFrame">Utiliser cette image</button>
                 <hr>
                 <button>Uploader une image</button>
             </div>
@@ -140,17 +140,25 @@
                     },
                 ]
             };
-             function addText(text = 'Enter your Text',style=''){
-                var id = "text-"+( Math.floor(Math.random() * 100) );
-                $("#container-6").append("<div class='rect' id='"+id+"' style='"+style+"'>"+text+"</div>");
+             function addText(text = 'Enter your Text',style='',new_item){
+                var id_num =  ( Math.floor(Math.random() * 100) );
+                var id = "text-"+id_num;
+                var class_new = "";
+                if(new_item)class_new = "new-item";
+                $("#container-6").append("<div class='item-frame rect "+class_new+"'  id='"+id+"' style='"+style+"'>"+text+"</div>");
                 var input = $("#"+id);
                 initDragDrop(input,[50,10],[200,300]);
+                return id_num;
             }
-            function addImage(src = null,style){
-                var id = "img-"+( Math.floor(Math.random() * 100) );
-                $("#container-6").append("<div class='rect' id='"+id+"'  style='"+style+"' ><img style='width: 100%; height: 100%'  src='"+src+"' ></div>");
+            function addImage(src = null,style,new_item){
+                var id_num =  ( Math.floor(Math.random() * 100) );
+                var id = 'img-'+id_num;
+                var class_new = "";
+                if(new_item)class_new = "new-item";
+                $("#container-6").append("<div class='item-frame rect "+class_new+"' id='img-"+id_num+"'  style='"+style+"' ><img style='width: 100%; height: 100%'  src='"+src+"' ></div>");
                 var input = $("#"+id);
                 initDragDrop(input);
+                return id_num;
             }
             function initDragDrop($item, $minSize=[50,50],$maxSize=[500,400]){
                 $item.clayfy({
@@ -217,6 +225,55 @@
             function addNewSquare(){
                 openModalVC();
             }
+            var choice_image_to_insert = 0;
+            function selectImage(id,href){
+                // $("#selected-image").src(href);
+            }
+            function insertImage(id,href){
+                  var data = {
+                    'action': 'visit_card_ajax_request',
+                    'post_type': 'POST',
+                    'function': 'getGallery'
+                  };
+                closeModalVC();
+                  var tmp_id = addImage("https://i.ya-webdesign.com/images/loading-gif-png-5.gif",'width:100px;height:100px;top:10px;left:30px;background-color:white;',true);
+                  jQuery.post(ajaxurl, data, function(response) {
+                        $("#img-"+tmp_id+" img").attr("src",href);
+                        var new_id = tmp_id+1;
+                        $("#img-"+tmp_id).attr("id","img-"+new_id);
+                        elements.childs.push(buildItem(new_id,'image',{
+                            style:'background-color:white;width:100px;height:100px;top:200px;left:300px;border-radius:20px;',
+                            src:href
+                        },null));
+                  }, 'json');
+            }
+
+            /**
+            ** Build item to push it in data structure of frame
+            **/
+            function buildItem(id,type,property,inner){
+                return {
+                        id: 3,
+                        type : type,
+                        property:property,
+                        inner:inner,
+                    }
+            }
+            var c = 0;
+            /**
+            ** Upload image on frame
+            **/
+            $("#addImageToFrame").click(
+                function($this){
+                   var item = $("#selected-image");
+                    var id = parseInt( item.attr("data-id") );
+                    var src = item.attr("src") ;
+                    insertImage(id,src);
+                }
+            );
+            /**
+            ** Get image into gallery and push it to frame design
+            **/
             function updateMediaGallery(){
                   var data = {
                     'action': 'visit_card_ajax_request',
@@ -228,11 +285,23 @@
                         list.html('');
                         gallery = response;
                         response.forEach(function(item, index){
-                            var image = '<img src="'+item.image_icon+'">'
+                            var image = '<img class="gallery-selectable" data-id="'+item.id+'" id="image-inset-'+item.id+'" src="'+item.image_icon+'">'
                             list.append(image);
                         });
+                        $(".gallery-selectable").click(
+                            function($this){
+                               var item = $($this.toElement);
+                               var id = parseInt( item.attr("data-id") );
+
+                               var item = gallery.find(function(item, index){if(item.id==id)return item })
+                               console.log(item.image);
+                               $("#selected-image").attr("src",item.image);
+                               $("#selected-image").attr("data-id",item.id);
+                            }
+                        );
                   }, 'json');
             }
+
         </script>
 <style type="text/css">
     .modal-visit-card {
@@ -248,13 +317,15 @@
         border: 1px solid #9e9e9e;
         box-shadow: 1px 1px 10px 2px #868686;
     }
+
     .modal-visit-card .media-gallery img {
         margin: 15px;
         width: 20%;
         transition: .7s transform ease;
     }
     .modal-visit-card .media-gallery img:hover {
-        transform: scale(1.2);
+        transform: scale(1.1);
+        border: 3px solid #3e403f;
     }
     .modal-visit-card .modal-title {
         padding-left: 20px;
