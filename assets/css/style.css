@@ -54,7 +54,7 @@ body {
 	background: #fff;
 	border-radius: 2px;
 	display: inline-block;
-	height: 420px;
+	min-height: 420px;
 	padding: 10px;
 	position: relative;
 	width: 225px;
@@ -104,7 +104,7 @@ body {
 
 
 .main-content .rendering {
-	height: 420px;
+	height: 550px;
 	overflow: hidden;
 	width: 50%;
 	position: relative;

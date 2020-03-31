@@ -77,7 +77,84 @@
                     </div> 
 
                     <div class="side">
-                        <div class="options">
+                        <div class="">
+                            <table>
+                                <tbody>
+                                    <tr class="hide-in-text hide-in-block">
+                                        <td><i class="fas fa-arrows-alt-h"></i></td>
+                                        <td> <input type="number" name="target-width" id="target-width"> </td>
+
+                                        <td><i class="fas fa-arrows-alt-v"></i></td>
+                                        <td> <input type="number" name="target-heigth" id="target-heigth"> </td>
+                                    </tr>
+
+                                    <tr class="hide-in-text hide-in-block">
+                                        <td><i class="fas fa-arrow-right"></i></td>
+                                        <td> <input type="number" name="target-left" id="target-left"> </td>
+
+                                        <td><i class="fas fa-arrow-down"></i></td>
+                                        <td> <input type="number" name="top" id="target-top"> </td>
+                                    </tr>
+
+                                    <tr class="hide-in-text hide-in-block">
+                                        <td><i class="fas fa-bahai"></i></td>
+                                        <td> <input type="number" name="width" id="target-top1"> </td>
+
+                                        <td><img id="color-wheel" style="width: 20px;margin: 10px;" src="<?php echo WPCVC_URL; ?>/assets/images/color_wheel.png" /></td>
+                                        <td> <input type="color" name="target-background-color"  id="target-background-color"> </td>
+                                    </tr>
+
+                                    <tr class="hide-in-text hide-in-block">
+                                        <td><i class="fas fa-eye-slash"></i></td>
+                                        <td> <input type="number" name="target-opacity"  id="target-opacity"> </td>
+
+                                        <td><i class="fab fa-confluence"></i></td>
+                                        <td> <input type="number" name="target-border-radius"  id="target-border-radius"> </td>
+                                    </tr>
+
+                                    <tr class="hide-in-text hide-in-block">
+                                        <td style="width: 25%;"><i class="fas fa-align-right"></i></td>
+                                        <td style="width: 25%;"><i class="fas fa-align-center"></i></td>
+                                        <td style="width: 25%;"><i class="fas fa-align-justify"></i></td>
+                                        <td style="width: 25%;"><i class="fas fa-align-left"></i></td>
+                                    </tr>
+
+                                    <tr class="hide-in-text hide-in-block">
+                                        <td style="width: 25%;"><i class="fas fa-italic"></i></td>
+                                        <td style="width: 25%;"><i class="fas fa-bold"></i></td>
+                                        <td style="width: 25%;"><i class="fas fa-underline"></i></td>
+                                        <td style="width: 25%;"><i class="fas fa-strikethrough"></i></td>
+                                    </tr>
+
+                                    <tr class="hide-in-text hide-in-block">
+                                        <td><i class="fas fa-text-height"></i></td>
+                                        <td> <input type="number" name="width"> </td>
+
+                                        <td><i class="fas fa-underline"></i></td>
+                                        <td> <input type="number" name="height"> </td>
+                                    </tr>
+
+                                    <tr class="hide-in-text hide-in-block">
+                                        <td><i class="fas fa-font"></i></td>
+                                        <td> <input type="number" name="width"> </td>
+                                        <td><img id="color-wheel" style="width: 20px;margin: 10px;" src="<?php echo WPCVC_URL; ?>/assets/images/color_wheel.png" /></td>
+                                        <td> <input type="color" name="width">  </td>
+                                    </tr>
+
+                                    <tr class="hide-in-text hide-in-block">
+                                        <td><i class="fas fa-font"></i></td>
+                                        <td colspan="3"> 
+                                            <select>
+                                                <option>
+                                                    
+                                                </option>
+                                            </select> 
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="" id="list-properties">
                             
                         </div>
                     </div>
@@ -104,7 +181,10 @@
                 <img id="selected-image" width="100%" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg">
                 <button id="addImageToFrame">Utiliser cette image</button>
                 <hr>
-                <button>Uploader une image</button>
+                <form id="form_post_image">
+                    <input style="display: none;" required="required" type="file" name="post_image" id="post_image">
+                    <label for="post_image" class="btn" style="height: 40px;line-height: 29px;text-align: center;">Envoyer l'image</label>
+                </form>
             </div>
         </div>
     </div>
@@ -112,6 +192,7 @@
 
         <script>
             var ajaxurl = "<?php echo admin_url('admin-ajax.php'); ?>";
+            var parent_id = "<?php echo get_the_id(); ?>";
             var gallery = [];
             var elements = {
                 id: 1,
@@ -140,7 +221,7 @@
                     },
                 ]
             };
-             function addText(text = 'Enter your Text',style='',new_item){
+            function addText(text = 'Enter your Text',style='',new_item){
                 var id_num =  ( Math.floor(Math.random() * 100) );
                 var id = "text-"+id_num;
                 var class_new = "";
@@ -160,6 +241,58 @@
                 initDragDrop(input);
                 return id_num;
             }
+            function get_specific_label(property){
+                switch(property){
+                    case 'width':
+                        return 'Largeur';
+                    case 'background-color':
+                        return 'Couleur Arriere Plan';
+                    case 'background-image':
+                        return 'Image d\'arriere plan';
+                    case 'height':
+                        return 'Longueur';
+                    case 'top':
+                        return 'Marge Superieure';
+                    case 'left':
+                        return 'Marge Gauche';
+                    case 'rigth':
+                        return 'Marge Droite';
+                    case 'bottom':
+                        return 'Marge Imferieure';
+                    case 'border-radius':
+                        return 'Niveau d\'arrondi';
+                    default:
+                        return property;
+                }
+            }
+            function get_specific_type(property){
+                switch(property){
+                    case 'width':
+                        return 'text';
+                    case 'background-color':
+                        return 'color';
+                    default:
+                        return property;
+                }
+            }
+            function update_status_item($item){
+                $item = jQuery($item);
+                var id = $item.attr('id');
+                var style = $item.attr('style');
+                console.log(style);
+                $item.attr('style').split(";").forEach(function(item,index){
+                    var prop = item.trim().split(":");
+                    console.log(prop)
+                    if(prop[0]!=='' && prop[0]!==null){
+                        var target = '#target-'+prop[0].trim();
+
+                        console.log(target)
+                        jQuery(target).val(prop[1].trim().replace('px',''));
+                    }
+                });
+                console.log(id);
+                console.log(style);
+            }
             function initDragDrop($item, $minSize=[50,50],$maxSize=[500,400]){
                 $item.clayfy({
                     type : 'resizable',
@@ -169,6 +302,7 @@
                     className : 'custom-handlers',
                         drag : function(){
                             console.log( 'drag: ' + $item.width() + ' x '+ $item.height() +'<br>outer: ' + $item.outerWidth() + ' x '+ $item.outerHeight());
+                            update_status_item($item);
                         }
                         ,
                         drop : function(){
@@ -177,34 +311,17 @@
                     callbacks : {
                         resize : function(){
                             console.log( 'resize: ' + $item.width() + ' x '+ $item.height() +'<br>outer: ' + $item.outerWidth() + ' x '+ $item.outerHeight());
+                            update_status_item($item);
                         }
                     }
                 });
                 $item.on('clayfy-cancel', function(){
                     console.log( 'cancel: ' + $item.width() + ' x '+ $item.height() +'<br>outer: ' + $item.outerWidth() + ' x '+ $item.outerHeight());
                 })
+                $item.click(function(){
+                    update_status_item(this);
+                });
             }
-            elements.childs.forEach(
-                function(item , index){
-                    var id = item.id;
-                    switch(item.type){
-                        case 'image':
-                            addImage(item.property.src,item.property.style);
-                        break;
-                        case 'text':
-                            addText(item.inner,item.property.style);
-                        break;
-
-                    }
-                    // if(item.type  == 'image'){
-                    //     addImage(item.property.src);
-                    // }else if(item.type  == 'text'){
-                    //     addText(item.inner.src);
-                    // }
-                    var item = $("#visit-card-element-"+id);
-                    initDragDrop(item);
-                }
-            );
             function closeModalVC(){
                 $(".modal-visit-card").hide(1000);
             }
@@ -230,22 +347,38 @@
                 // $("#selected-image").src(href);
             }
             function insertImage(id,href){
-                  var data = {
+                var data = {
                     'action': 'visit_card_ajax_request',
-                    'post_type': 'POST',
-                    'function': 'getGallery'
-                  };
+                    'function': 'create_vc_element',
+                    'image_id':id
+                };
                 closeModalVC();
-                  var tmp_id = addImage("https://i.ya-webdesign.com/images/loading-gif-png-5.gif",'width:100px;height:100px;top:10px;left:30px;background-color:white;',true);
-                  jQuery.post(ajaxurl, data, function(response) {
-                        $("#img-"+tmp_id+" img").attr("src",href);
-                        var new_id = tmp_id+1;
-                        $("#img-"+tmp_id).attr("id","img-"+new_id);
-                        elements.childs.push(buildItem(new_id,'image',{
-                            style:'background-color:white;width:100px;height:100px;top:200px;left:300px;border-radius:20px;',
-                            src:href
-                        },null));
-                  }, 'json');
+                var tmp_id = addImage("https://i.ya-webdesign.com/images/loading-gif-png-5.gif",'width:50px;height:50px;top:10px;left:30px;background-color:white;',true);
+                jQuery.ajax({
+                    type:'POST',
+                    url: ajaxurl,
+                        data:{
+                        'action': 'visit_card_ajax_request',
+                        'function': 'create_vc_element',
+                        'image_id':id,
+                        'parent_id':parent_id,
+                        'style':'background-color:white;width:100px;height:100px;top:200px;left:300px;border-radius:20px;'
+                    },
+                    success:function(data){
+                            jQuery("#img-"+tmp_id+" img").attr("src",href);
+
+                            var new_id = data;
+                            jQuery("#img-"+tmp_id).attr("id","img-"+new_id);
+                            elements.childs.push(buildItem(new_id,'image',{
+                                style:'background-color:white;width:100px;height:100px;top:200px;left:300px;border-radius:20px;',
+                                src:href
+                            },null));
+                    },
+                    error: function(data){
+                        jQuery("#img-"+tmp_id).remove();
+                        alert("Erreur lors de la creation de cet element");
+                    }
+                });
             }
 
             /**
@@ -259,18 +392,7 @@
                         inner:inner,
                     }
             }
-            var c = 0;
-            /**
-            ** Upload image on frame
-            **/
-            $("#addImageToFrame").click(
-                function($this){
-                   var item = $("#selected-image");
-                    var id = parseInt( item.attr("data-id") );
-                    var src = item.attr("src") ;
-                    insertImage(id,src);
-                }
-            );
+
             /**
             ** Get image into gallery and push it to frame design
             **/
@@ -278,7 +400,7 @@
                   var data = {
                     'action': 'visit_card_ajax_request',
                     'post_type': 'POST',
-                    'function': 'getGallery'
+                    'function': 'get_gallery'
                   };
                   jQuery.post(ajaxurl, data, function(response) {
                         var list = $(".media-gallery");
@@ -301,9 +423,93 @@
                         );
                   }, 'json');
             }
+            var c = 0;
+            function updateElementRoot(){
 
+                /**
+                ** init element visit cart
+                **/
+
+                jQuery.get(
+                    ajaxurl, 
+                    {
+                        'action': 'visit_card_ajax_request',
+                        'function': 'get_visit_cart_object',
+                        'post_id':parent_id
+                    }, 
+                    function(response) {
+                        elements = response;
+                        elements.childs.forEach(
+                            function(item , index){
+                                var id = item.id;
+                                switch(item.type){
+                                    case 'image':
+                                        addImage(item.property.src,item.property.style);
+                                    break;
+                                    case 'text':
+                                        addText(item.inner,item.property.style);
+                                    break;
+
+                                }
+                                // if(item.type  == 'image'){
+                                //     addImage(item.property.src);
+                                // }else if(item.type  == 'text'){
+                                //     addText(item.inner.src);
+                                // }
+                                var item = $("#visit-card-element-"+id);
+                                initDragDrop(item);
+                            }
+                        );
+                    }, 
+                    'json'
+                );
+
+            }
+
+            function init(){
+                updateElementRoot();
+                /**
+                ** Upload image on frame
+                **/
+                jQuery("#addImageToFrame").click(
+                    function($this){
+                       var item = jQuery("#selected-image");
+                        var id = parseInt( item.attr("data-id") );
+                        var src = item.attr("src") ;
+                        insertImage(id,src);
+                    }
+                );
+                jQuery("form#form_post_image").on('submit',(function(e) {
+                    e.preventDefault();
+                    var formData = new FormData(this);
+                    formData.append("action", 'visit_card_ajax_request');
+                    formData.append("function", 'add_to_gallery');
+                    jQuery.ajax({
+                        type:'POST',
+                        url: ajaxurl,
+                        data:formData,
+                        cache:false,
+                        contentType: false,
+                        processData: false,
+                        success:function(data){
+                            updateMediaGallery();
+                        },
+                        error: function(data){
+                            alert("Erreur lors du chargement de l'image");
+                        }
+                    });
+                }));
+                jQuery("input#post_image").on("change", function() {
+                    jQuery("form#form_post_image").submit();
+                });
+            }
+            init();
         </script>
 <style type="text/css">
+
+    div#list-properties .property {
+        width: 100%;
+    }
     .modal-visit-card {
         display: none;
         position: absolute;
@@ -316,6 +522,10 @@
         background: white;
         border: 1px solid #9e9e9e;
         box-shadow: 1px 1px 10px 2px #868686;
+    }
+    div#list-properties {
+        max-height: 400px;
+        overflow: scroll;
     }
 
     .modal-visit-card .media-gallery img {
@@ -366,6 +576,20 @@
         padding-top: 4px;
         color: white;
         font-weight: 800;
+    }
+
+    .side input[type="number"] {
+        width: 50px;
+        height: 35px;
+    }
+    .side table tr td, .side table tr th {
+        padding: 10px 0px 0px 0px !important;
+    }
+    .side .fa, .side .fas {
+        margin: 10px;
+    }
+    .side input[type="number"]{
+        padding: 2px;
     }
 </style>
 <?php get_footer(); ?>  
