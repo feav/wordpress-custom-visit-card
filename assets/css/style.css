@@ -221,12 +221,12 @@ h3{
                 color : #555;
             }
             .rect {
-                height: 100px;
-                width : 150px;
+                /*height: 100px;
+                width : 150px;*/
                 /*background : #ccc;*/
                 position: absolute;
-                top: 10px;
-                left: 10px;
+               /* top: 10px;
+                left: 10px;*/
                 overflow: hidden;
             }
             

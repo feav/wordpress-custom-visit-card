@@ -142,7 +142,9 @@ error_reporting(1);
 	    	$args = array(
 				'post_type'   => array( $this->post_type ),
 			    'post_status' => array( 'template'),    
-			    'post_parent' => $post_id
+			    'post_parent' => $post_id,
+			    'orderby' => 'ID',
+			    'order' => 'ASC'
 			);
 			$query_visit_cart = new WP_Query( $args );
 			$elements = array();
@@ -186,6 +188,13 @@ error_reporting(1);
 
 	 			echo $this->add_into_my_gallery($_FILES['post_image']);
 
+		    }else if($module=="update_style"){
+
+		    	$post_id = $_POST['object_id'];
+		 		$style = $_POST['style'];
+		 		echo update_post_meta($post_id, 'vc_style', $style);
+
+
 		    }else if($module=="create_vc_element"){
 
 		    	$post_parent = $_POST['parent_id'];
@@ -200,7 +209,7 @@ error_reporting(1);
 		 			$text = $_POST['type'];
 		 			update_post_meta($post_id, 'vc_type', 'image');
 		 			$style = $_POST['style'];
-		 			update_post_meta($post_id, 'vc_style', $text);
+		 			update_post_meta($post_id, 'vc_style', $style);
 		 			echo $post_id;
 		    	
 		    	}else if(isset($_POST['text'])){
@@ -211,7 +220,7 @@ error_reporting(1);
 		 			$text = $_POST['type'];
 		 			update_post_meta($post_id, 'vc_type', 'text');
 		 			$style = $_POST['style'];
-		 			update_post_meta($post_id, 'vc_style', $text);
+		 			update_post_meta($post_id, 'vc_style', $style);
 		 			echo $post_id;
 		    	
 		    	}
