@@ -4,17 +4,14 @@
 */
 /*
 	Plugin Name: Management des Visit Card
-	  Plugin URI: https://www.ars-agency.com
-	  Description: Carte de Visite Custom Post Type
-	  Version: 1.0
-	  Author: ARS GROUP
-	  Author URI: http://www.ars-agency.com
-	 */
+	Plugin URI: https://www.ars-agency.com
+	Description: Carte de Visite Custom Post Type
+	Version: 1.0
+	Author: ARS GROUP
+	Author URI: http://www.ars-agency.com
+*/
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-error_reporting(1);
+
 
 	define('WPCVC_PLUGIN_FILE',__FILE__);
 	define('WPCVC_DIR', plugin_dir_path(__FILE__));
@@ -23,7 +20,9 @@ error_reporting(1);
 
 	define('WPCVC_API_URL_SITE', get_site_url() . "/");
 
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 	class WpCustomVisitCard {
 		private $post_type;
@@ -40,6 +39,7 @@ error_reporting(1);
 			add_action('save_post', array(&$this,'wporg_save_postdata'));
 
 			add_filter( 'single_template',  array(&$this,'custom_visit_card_template') );
+			add_action('wp_head', array(&$this, 'loadFonts') );
 
 			// add_action('manage_'.$this->post_type.'_posts_custom_column', array(&$this, 'custom_visit_card_columns'), 15, 3);
 			// add_filter('manage_'.$this->post_type.'_posts_columns', array(&$this, 'visit_card_columns'), 15, 1);
@@ -47,7 +47,12 @@ error_reporting(1);
 			add_action( 'wp_ajax_visit_card_ajax_request', array(&$this,'ajax_callback') );
   			add_action( 'wp_ajax_nopriv_visit_card_ajax_request', array(&$this,'ajax_callback') );
 
-	    }  /* Filter the single_template with our custom function*/
+
+	    }  
+
+
+
+	    /* Filter the single_template with our custom function*/
 	    function get_my_gallery(){
 	    	$args = array(
 				    'author' => get_current_user_id(),
@@ -68,6 +73,7 @@ error_reporting(1);
 	 		endif; 
 	 		return $imgs;
 	    }
+
 	    function add_into_my_gallery($file){
 	    	if($file && $file['size']){
 			    // WordPress environment
@@ -115,7 +121,7 @@ error_reporting(1);
 			        // wp_generate_attachment_metadata() won't work if you do not include this file
 			        require_once( ABSPATH . 'wp-admin/includes/image.php' );
 			     
-			        // Generate and save the attachment metas into the database
+			        // Generate and save  the attachment metas into the database
 			        wp_update_attachment_metadata( $upload_id, wp_generate_attachment_metadata( $upload_id, $new_file_path ) );
 			     
 			        // update_post_meta(  $parent_post_id, '_thumbnail_id',  $upload_id );
@@ -127,6 +133,17 @@ error_reporting(1);
 			}
 			return 0;
 	    }
+	    
+	    // Loading Fonts
+		public function loadFonts() {
+			?>
+			  	<link href="http://fr.allfont.net/allfont.css?fonts=comic-sans-ms" rel="stylesheet" type="text/css" />
+				<link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
+				<link href="https://fonts.googleapis.com/css?family=Lobster+Two&display=swap" rel="stylesheet">
+				<link href="https://fonts.googleapis.com/css?family=Jim+Nightshade&display=swap" rel="stylesheet">
+			<?php
+
+		}
 	    function create_visit_cart_element($type,$post_status,$post_parent){
 			$post_information = array(
 			        'post_title' =>  " VC - ".$type." - ".date('ymdhi'),
@@ -139,29 +156,28 @@ error_reporting(1);
 			return $post_id;
 	    }
 	    function get_elements_of_visit_cart($post_id){
-	    	$args = array(
-				'post_type'   => array( $this->post_type ),
-			    'post_status' => array( 'template'),    
-			    'post_parent' => $post_id,
-			    'orderby' => 'ID',
-			    'order' => 'ASC'
+			$query_visit_cart = get_children(
+				array(
+			        'numberposts' => -1,
+			        'post_type'   => $this->post_type ,
+			        'post_status' => 'template',
+			        'post_parent' => $post_id,
+				    'orderby' => 'ID',
+				    'order' => 'ASC'
+			    )
 			);
-			$query_visit_cart = new WP_Query( $args );
 			$elements = array();
-			if ( $query_visit_cart->have_posts() ) {
-				while ( $query_visit_cart->have_posts() ) {
-					$query_visit_cart->the_post();
-					$elements[] = array(
-						'id' => get_the_ID(),
-						'title'=>get_the_title(),
-                        'type' => get_post_meta(get_the_ID(), 'vc_type', true),
+			foreach ($query_visit_cart as $key => $value) {
+				$elements[] = array(
+						'id' => $value->ID,
+						'title'=>get_the_title($value->ID),
+                        'type' => get_post_meta($value->ID, 'vc_type', true),
                         'property'=>array(
-                            'style' => get_post_meta(get_the_ID(), 'vc_style', true),
-                            'src' => get_the_post_thumbnail_url()
+                            'style' => get_post_meta($value->ID, 'vc_style', true),
+                            'src' => get_the_post_thumbnail_url($value->ID)
                         ),
-                        'inner'=>get_post_meta(get_the_ID() , 'vc_text', true)
+                        'inner'=>get_post_meta($value->ID , 'vc_inner', true)
 					);
-				}
 			}
 			return array(
 				'id' => $post_id,
@@ -180,7 +196,6 @@ error_reporting(1);
 		    	$module	= trim($_GET['function']);
 		    }
 
-
 		    if($module=="get_gallery"){
 
 	 			echo json_encode($this->get_my_gallery());
@@ -195,7 +210,18 @@ error_reporting(1);
 		 		echo update_post_meta($post_id, 'vc_style', $style);
 
 
-		    }else if($module=="create_vc_element"){
+		    }else if($module=="update_inner"){
+
+		    	$post_id = $_POST['object_id'];
+		 		$style = $_POST['text'];
+		 		echo update_post_meta($post_id, 'vc_inner', $style);
+
+
+		    }else if($module == "remove_vc_element"){
+
+		    	$post_id = $_POST['object_id'];
+		 		echo wp_delete_post($post_id, true);
+		    }else if($module == "create_vc_element"){
 
 		    	$post_parent = $_POST['parent_id'];
 
@@ -225,11 +251,46 @@ error_reporting(1);
 		    	
 		    	}
 
-		    }else if($module=="get_visit_cart_object"){
+		    }else if($module == "get_visit_cart_object"){
 
 		    	$post_parent = $_GET['post_id'];
 
 		    	echo json_encode($this->get_elements_of_visit_cart($post_parent));
+
+		    }else if($module == "get_child_visit_cart_objet"){
+
+		    	$post_id = intval( $_GET['post_id'] );
+		    	$parent_id = wp_get_post_parent_id($post_id);
+		    	$defaults = array(
+		    				'numberposts'	=> 1,
+		    				'post_type'	 => $this->post_type,
+        	                'post_parent'  => $post_id,
+                            'suppress_filters' => true,
+                        );
+		    	$parent = new WP_Query( $defaults );
+		    	$child = 0;
+				if ( $parent->have_posts() ) :
+				    while ( $parent->have_posts() ) : $parent->the_post();
+				    	$child = get_the_ID();
+				    endwhile; 
+				endif; 
+				wp_reset_postdata();
+				if( !$parent_id ){
+					if( $child == 0 ){
+
+						$child =  $this->create_visit_cart_element(" VERSO ","publish", $post_id);
+						echo json_encode( array('recto' => $post_id ,'verso' => $child) );
+
+					}else{
+
+						echo json_encode( array('recto' => $post_id ,'verso' => $child) );
+
+					}	
+				}else{
+
+					echo json_encode( array('recto' => $parent_id ,'verso' => $post_id) );
+
+				}
 
 		    }else{
 		    	echo "No route found";
