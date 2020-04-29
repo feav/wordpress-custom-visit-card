@@ -1,12 +1,18 @@
-<?php get_header(); ?>  
+<?php //ßget_header(); ?>  
 <link rel="stylesheet" href="<?php echo WPCVC_URL; ?>/assets/css/style.css">
 <script src="<?php echo WPCVC_URL; ?>/assets/libs/jquery.js"></script>
 <script src="<?php echo WPCVC_URL; ?>/assets/dist/clayfy.min.js"></script>
 <link rel="stylesheet" href="<?php echo WPCVC_URL; ?>/assets/dist/clayfy.min.css" type="text/css">
 <script src="<?php echo WPCVC_URL; ?>/assets/dist/vanilla-picker.js?123456"></script>
 <script src="https://unpkg.com/vanilla-picker@2.5"></script>
+<link href="http://fr.allfont.net/allfont.css?fonts=comic-sans-ms" rel="stylesheet" type="text/css" />
+<link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lobster+Two&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Jim+Nightshade&display=swap" rel="stylesheet">
+<div class="header-part">
+    <img id="color-wheel"  style="height: 90px;" src="<?php echo WPCVC_URL; ?>/assets/images/logo.jpg">
 
- 
+</div>
 <main id="skip_content" role="main" style="position: relative;">
     <div class="">
         <div class="main-wrapper">
@@ -16,7 +22,7 @@
                     <ul style="position: relative;">
 
                          <li style="width: auto;height: 40px;align-items: center;">
-                           <select style="border: none;" id="target-font-family" name="target-font-family" class="updated">
+                           <select style="border: none;line-height: 45px;padding-right: 15px;" id="target-font-family" name="target-font-family"  class="updated">
                                 <option>Police</option>
                                 <option value="Dancing_Script">Dancing Script</option>
                                 <option value="Lobster_Two">Lobster Two</option>
@@ -25,72 +31,98 @@
                            </select>
                         </li>
                         <li style="">
-                            <img style="height: 100%;width: auto;" id="color-wheel" title="Ajouter un text" onclick="addNewText()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/couleurs.png">
+
+                            <label for="target-background-color" id="font-style-select" name="font-style-select">
+                                <img title="Changer la couleur"  src="<?php echo WPCVC_URL; ?>/assets/images/couleurs.png">
+                            </label>
+                            <input type="color" name="target-background-color" style="opacity: 0;" id="target-background-color">
                         </li>
                         <li style="width: 60px;">
-                            <img style="width: 31px !important;"id="color-wheel" title="Ajouter un text" onclick="addNewText()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/taille-texte.png">
-                            <select style="border: none;width: 35px;text-align: left;padding-left: 5px;height: 25px !important;margin-left: 35px;line-height: 24px !important;line-height: 39px;overflow: visible;font-size: 15px;background-color: #ffffff7d;padding: 2px">
-                                <option>12</option>
+                            <img style="width: 31px !important;" title="taille du text" src="<?php echo WPCVC_URL; ?>/assets/images/taille-texte.png">
+                            <select class="select-small" id="target-font-size" name="target-font-size">
+                                <?php for($size=5 ; $size < 150 ; $size+=5){ ?>
+                                <?php echo "<option value='".$size."'>".$size."</option>"; ?>
+                                <?php } ?>
                            </select>
                         </li>
 
 
                         
                         <li style="margin-left: 40px;margin-right: 0;">
-                            <img style="height: 100%;width: auto;" id="color-wheel" title="Ajouter un text" onclick="addNewText()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/bold.png">
+                            <label value="left" id="font-weight-select" name="font-weight-select">
+                                <img title="Gras" alt="Gras" src="<?php echo WPCVC_URL; ?>/assets/images/bold.png">
+                            </label>
                         </li>
                         <li style="margin-left: 0px;margin-right: 0;">
-                            <img style="height: 100%;width: auto;" id="color-wheel" title="Ajouter un text" onclick="addNewText()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/italic.png">
+                            <label value="left" id="font-style-select" name="font-style-select">
+                                <img title="Italic"  src="<?php echo WPCVC_URL; ?>/assets/images/italic.png">
+                            </label>
                         </li>
                         <li style="margin-left: 0px;">
-                            <img style="height: 100%;width: auto;" id="color-wheel" title="Ajouter un text" onclick="addNewText()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/underline.png">
+                            <label value="left" id="text-decoration-select" name="text-decoration-select">
+                                <img  title="Souligner" src="<?php echo WPCVC_URL; ?>/assets/images/underline.png">
+                            </label>
                         </li>
 
 
                         
                         <li style="margin-left: 40px;margin-right: 0;">
-                            <img style="height: 100%;width: auto;" id="color-wheel" title="Ajouter un text" onclick="addNewText()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/gauche.png">
+                            <label value="left" class="text-align-select">
+                                <img title="Gauche"  src="<?php echo WPCVC_URL; ?>/assets/images/gauche.png">
+                            </label>
                         </li>
                         <li style="margin-left: 0px;margin-right: 0;">
-                            <img style="height: 100%;width: auto;" id="color-wheel" title="Ajouter un text" onclick="addNewText()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/droite.png">
+                            <label class="text-align-select" value="right"  >
+                                <img title="Droite"  src="<?php echo WPCVC_URL; ?>/assets/images/droite.png">
+                            </label>
                         </li>
                         <li style="margin-left: 0px;margin-right: 0;">
-                            <img style="height: 100%;width: auto;" id="color-wheel" title="Centrer le texte" onclick="addNewText()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/centrer.png">
+                            <label  class="text-align-select"  value="center">
+                                <img title="Centrer le texte" src="<?php echo WPCVC_URL; ?>/assets/images/centrer.png">
+                            </label>
                         </li>
                         <li style="margin-left: 0px;">
-                            <img style="height: 100%;width: auto;" id="color-wheel" title="Ajouter un text" onclick="addNewText()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/justifier.png">
+                            <label value="justify" class="text-align-select">
+                                <img  title="Justifier" src="<?php echo WPCVC_URL; ?>/assets/images/justifier.png">
+                            </label>
                         </li>
 
 
 
                         <li style="width: 60px;margin-left: 40px;">
-                            <img style="width: auto;height: 100%;"id="color-wheel" title="Ajouter un text" onclick="addNewText()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/interlettrage.png">
-                            <select style="border: none;width: 35px;text-align: left;padding-left: 5px;height: 25px !important;margin-left: 35px;line-height: 24px !important;line-height: 39px;overflow: visible;font-size: 15px;background-color: #ffffff7d;padding: 2px">
-                                <option>12</option>
+                            <img title="Interlettrage du text" src="<?php echo WPCVC_URL; ?>/assets/images/interlettrage.png">
+                            <select class="select-small" id="target-letter-spacing" name="target-letter-spacing">
+                                <?php for($size=5 ; $size < 100 ; $size+=5){ ?>
+                                <?php echo "<option value='".$size."'>".$size."</option>"; ?>
+                                <?php } ?>
                            </select>
                         </li>
 
 
 
                         <li style="width: 60px;margin-left: 40px;">
-                            <img style="width: auto;height: 100%;"id="color-wheel" title="Ajouter un text" onclick="addNewText()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/interlignage.png">
-                            <select style="border: none;width: 35px;text-align: left;padding-left: 5px;height: 25px !important;margin-left: 35px;line-height: 24px !important;line-height: 39px;overflow: visible;font-size: 15px;background-color: #ffffff7d;padding: 2px">
-                                <option>12</option>
+                            <img title="Interlignage" src="<?php echo WPCVC_URL; ?>/assets/images/interlignage.png">
+                            <select class="select-small" id="target-line-height" name="target-line-height">
+                                <?php for($size=5 ; $size < 150 ; $size+=5){ ?>
+                                <?php echo "<option value='".$size."'>".$size."</option>"; ?>
+                                <?php } ?>
                            </select>
                         </li>
 
 
                         <li style="margin-left: 40px;">
-                            <img style="height: 100%;width: auto;" id="color-wheel" title="Ajouter un text" onclick="addNewText()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/ajout-texte.png">
+                            <img title="Ajouter un text" onclick="addNewText()" src="<?php echo WPCVC_URL; ?>/assets/images/ajout-texte.png">
                         </li>
                         <li style="margin-left: 10px;">
-                            <img style="height: 100%;width: auto;" id="color-wheel" title="Ajouter un text" onclick="addNewText()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/rotation.png">
+                             <label id="transform-select">
+                                <img alt="Rotation"  src="<?php echo WPCVC_URL; ?>/assets/images/rotation.png">
+                            </label>
                         </li>
                         <li style="margin-left: 10px;">
-                            <img id="color-wheel" title="Ajouter une image" onclick="addNewImage()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/ajout-image.png" style="height: 35px;top: -10px;width: auto;">
+                            <img title="Ajouter une image" onclick="addNewImage()" src="<?php echo WPCVC_URL; ?>/assets/images/ajout-image.png">
                         </li>
                         <li style="margin-left: 10px;">
-                            <img id="color-wheel" title="Ajouter une image" onclick="addNewImage()" src="http://localhost:8888/test/wp-content/plugins/wordpress-custom-visit-card//assets/images/supprimer.png" style="height: 100%;width: auto;"  onclick="remove_object(true)">
+                            <img title="Ajouter une image" onclick="remove_object(true)"  src="<?php echo WPCVC_URL; ?>/assets/images/supprimer.png" >
                         </li>
                     </ul>
                 </div>
@@ -105,26 +137,40 @@
                             $recto = wp_get_post_parent_id(get_the_id());
                             
                         ?>
-                        <img id="loading-frame" src="https://i.ya-webdesign.com/images/loading-gif-png-5.gif" style="margin-left: 45%;width: 10%;margin-top: 30px;">
 
                         <div class="options">
                             <span  id="frame-recto" onclick="loadRecto()" class="item  vc-current frame-view">RECTO</span>
                             <span  id="frame-verso" onclick="loadVerso()"  class="item frame-view">VERSO</span>
+
+                            <span  id="frame-carton" onclick="loadCarton()" class="item  frame-view">CARTON  REPAS</span>
+                            <span  id="frame-etiquette" onclick="loadEtiquette()"  class="item frame-view">ETIQUETTE</span>
                         </div>
+                        <div><input type="text" name="text-content" placeholder="Text" id="text-content" style="width: 100%;height: 30px;"></div>
                         <div>
                             <button class="btn">ENREGISTRER <i class="fas fa-save"></i></button>
                             <button class="btn">APERCU PDF <i class="fas fa-eye"></i></button>
                             <button class="btn btn-add">AJOUTER AU PANIER</button>
                         </div>
+                        <div class="card-border">
+                            <hr class="solid" /><span>FORMAT FINI</span>
+                        </div>
+                        <div class="card-border">
+                            <hr class="dashed" /><span>ZONE TRANQUILLE</span>
+                        </div>
+                        <img id="loading-frame" src="https://i.ya-webdesign.com/images/loading-gif-png-5.gif" style="margin-left: 45%;width: 10%;margin-top: 30px;">
+
                     </div>
                     <div class="rendering">
-                        <div class="container" id="container-6" 
-                                style="height: 100%;border: 4px solid #f2f8f4;width: 100%;">
+                        <div class="container" id="container-6" selected="0"
+                                style="height: 100%;border: 4px solid #d5e8df;width: 100%;">
+                            <div class="zone-fini"></div>
+                            <div class="zone-tranquille"></div>
+                            
                         </div>
                     </div> 
 
-                    <div class="side" id="side-property" data-selected-id="0">
-                        <div class="">
+                    <div class="side" id="side-property" data-selected-id="0" style="opacity: 0;z-index: -1;">
+                        <div class="" >
                             <table>
                                 <tbody>
 
@@ -159,8 +205,8 @@
 
                                     <tr class="hide-in-text hide-in-block">
                                         <td><i class="fas fa-text-height"></i></td>
-                                        <td> <input type="number" name="target-line-height"  class="updated"  id="target-line-height"> </td>
-                                        <td><i class="fas fa-italic"></i></td>
+                                       <!--  <td> <input type="number" name="target-line-height"  class="updated"  id="target-line-height"> </td>
+                                        <td><i class="fas fa-italic"></i></td> -->
                                         <td> 
                                             <select name="target-font-style" class="updated"  id="target-font-style">
                                                 <option value="none">Aucun</option>
@@ -194,7 +240,7 @@
 
                                     <tr class="hide-in-text hide-in-block">
                                         <td><i class="fas fa-font"></i></td>
-                                        <td> <input type="number" class="updated"  name="target-font-size"  id="target-font-size"> </td>
+                                        <td> </td>
 
                                         <td><i class="fas fa-underline"></i></td>
                                         <td> 
@@ -241,6 +287,7 @@
                 crossorigin="anonymous">
             </script> -->
             <script type="text/javascript" src="<?php echo WPCVC_URL; ?>/assets/js/script.js"></script>
+            <script type="text/javascript" src="<?php echo WPCVC_URL; ?>/assets/js/jscolor.js"></script>
         </div>
     </div>
     <div class="modal-visit-card imgage-modal">
@@ -272,7 +319,7 @@
             <div class="media-text" id="block-add-text">
                                 <span class="close" onclick="closeModalVC()">x</span>
 
-                <textarea name="text-input" id="text-input" data-id="0"></textarea>
+                <textarea name="text-input" id="text-input" data-id="0" style="width: 100%;height: 50px;"></textarea>
                 <div class="font-style-menu"> 
                     <div>
                         <label>Taille</label>
@@ -373,13 +420,62 @@
                     },
                 ]
             };
+            function update_text_inner(text){
+                var elt = $(elt);
+                var id = parseInt(jQuery("#container-6").attr("data-selected-id"));
+                if(id){
 
+                   if(jQuery("#"+prefix_object+id).hasClass('item-text')){
+                        jQuery("#"+prefix_object+id).html(text);
+                        var data = {
+                            'action': 'visit_card_ajax_request',
+                            'object_id': id,
+                            'text': text,
+                            'function': 'update_inner'
+                          };
+
+                        jQuery("#loading-frame").show();
+
+                        jQuery.post(ajaxurl, data, function(response) {jQuery("#loading-frame").hide();}, 'json');
+                   }
+                }else{
+                    /**
+                    ** Mettre une alerte qu aucun element n a ete selectionne
+                    **/
+                }
+
+            }
+            /**
+            ** use it to update render from top dashboard and push in database
+            **/
+            function update_property(property,value){
+                var elt = $(elt);
+                var id = parseInt(jQuery("#container-6").attr("data-selected-id"));
+
+                if(id){
+                    jQuery("#"+prefix_object+id).css(property,value);     
+                    var data = {
+                        'action': 'visit_card_ajax_request',
+                        'object_id': id,
+                        'style': jQuery("#"+prefix_object+id).attr("style"),
+                        'function': 'update_style'
+                      };
+
+                    jQuery("#loading-frame").show();
+
+                    jQuery.post(ajaxurl, data, function(response) {jQuery("#loading-frame").hide();}, 'json');
+                }else{
+                    /**
+                    ** Mettre une alerte qu aucun element n a ete selectionne
+                    **/
+                }
+            }
             function addText(text = 'Enter your Text',style='',new_item,id){
                 var id_num = id?id: ( Math.floor(Math.random() * 100) );
                 var id = prefix_object+id_num;
                 var class_new = "";
                 if(new_item)class_new = "new-item";
-                $("#container-6").append("<div class='item-frame rect "+class_new+"'  id='"+id+"' style='"+style+"'>"+text+"</div>");
+                $("#container-6").append("<div class='item-text item-frame rect "+class_new+"'  id='"+id+"' style='"+style+"'>"+text+"</div>");
                 var input = $("#"+id);
                 initDragDrop(input,[50,10],[1000,1000]);
                 return id_num;
@@ -389,72 +485,45 @@
                 var id = prefix_object+id_num;
                 var class_new = "";
                 if(new_item)class_new = "new-item";
-                $("#container-6").append("<div class='item-frame rect "+class_new+"' id='"+prefix_object+id_num+"'  style='"+style+"' ><img style='width: 100%; height: 100%'  src='"+src+"' ></div>");
+                $("#container-6").append("<div class='item-image item-frame rect "+class_new+"' id='"+prefix_object+id_num+"'  style='"+style+"' ><img style='width: 100%; height: 100%'  src='"+src+"' ></div>");
                 var input = $("#"+id);
                 initDragDrop(input,[50,10],[1000,1000]);
                 return id_num;
             }
             function remove_object(saved){
-                var id = $("#side-property").attr("data-selected-id").trim();
+                var elt = $(elt);
+                var id = parseInt(jQuery("#container-6").attr("data-selected-id"));
 
-                var data = {
-                    'action': 'visit_card_ajax_request',
-                    'object_id': id,
-                    'function': 'remove_vc_element'
-                  };
-                      jQuery.post(ajaxurl, data, function(response) {
-                      }, 'json');
-                      
+                if(id){
+                     var data = {
+                        'action': 'visit_card_ajax_request',
+                        'object_id': id,
+                        'function': 'remove_vc_element'
+                      };
+
+                    jQuery("#loading-frame").show();
                         jQuery("#"+prefix_object+id).remove();
+
+                    jQuery.post(ajaxurl, data, function(response) {
+                        jQuery("#loading-frame").hide();}, 'json');
+                }else{
+                    /**
+                    ** Mettre une alerte qu aucun element n a ete selectionne
+                    **/
+                }
+
+
             }
+            /**
+            **
+            ** to remove 
+            **/
             function update_database(saved){
                 var style= '';
                 var val = '';
 
                 // if(val = $("#target-background-color").val())
                     // style+= 'background-color:'+val+';';
-
-                if(val = $("#target-width").val())
-                    style+= 'width:'+val+'px;';
-
-                if(val = $("#target-height").val())
-                    style+= 'height:'+val+'px;';
-
-                if(val = $("#target-top").val())
-                    style+= 'top:'+val+'px;';
-
-                if(val = $("#target-left").val())
-                    style+= 'left:'+val+'px;';
-
-                if(val = $("#target-border-radius").val())
-                    style+= 'border-radius:'+val+'px;';
-
-                if(val = $("#target-opacity").val())
-                    style+= 'opacity:'+val+';';
-
-                if(val = $("#target-font-size").val())
-                    style+= 'font-size:'+val+'px;';
-
-                if(val = $("#target-color").val())
-                    style+= 'color:'+val+';';
-
-                if(val = $("#target-text-decoration").val())
-                    style+= 'text-decoration:'+val+';';
-
-                if(val = $("#target-font-weight").val())
-                    style+= 'font-weight:'+val+';';
-
-                if(val = $("#target-text-align").val())
-                    style+= 'text-align:'+val+';';
-
-
-                if(val = $("#target-font-style").val())
-                    style+= 'font-style:'+val+';';
-
-                if(val = $("#target-font-family").val()){
-                    console.log("Style => style "+val);
-                    style+= 'font-family:'+val.replace("_"," ")+';';
-                }
 
                 if(val = $("#target-line-height").val())
                     style+= 'line-height:'+val+'px;';
@@ -490,67 +559,7 @@
 
             }
 
-            function update_text(){
-                var style= '';
-                var val = '';
-
-                // if(val = $("#target-background-color").val())
-                    // style+= 'background-color:'+val+';';
-
-                if(val = $("#target-update-text-font-size").val())
-                    style+= 'font-size:'+val+'px;';
-
-                if(val = $("#target-update-text-font-weight").val())
-                    style+= 'font-weight:'+val+';';
-
-                if(val = $("#target-update-text-font-family").val())
-                    style+= 'font-family:'+val.replace("_"," ")+';';
-
-                if(val = $("#target-update-text-line-height").val())
-                    style+= 'line-height:'+val+'px;';
-
-                if(val = $("#target-update-text-font-style").val())
-                    style+= 'font-style:'+val+';';
-
-                if(val = $("#target-update-text-font-weight").val())
-                    style+= 'font-weight:'+val+';';
-
-                if(val = $("#target-update-text-text-align").val())
-                    style+= 'text-align:'+val+';';
-
-                if(val = $("#target-update-text-text-decoration").val())
-                    style+= 'text-decoration:'+val+';';
-
-                $("#text-input").attr("style",style);
-                // $("#text-input").html($("#text-input").html());
-                console.log(style);
-                return style;
-
-            }
-            function get_specific_label(property){
-                switch(property){
-                    case 'width':
-                        return 'Largeur';
-                    case 'background-color':
-                        return 'Couleur Arriere Plan';
-                    case 'background-image':
-                        return 'Image d\'arriere plan';
-                    case 'height':
-                        return 'Longueur';
-                    case 'top':
-                        return 'Marge Superieure';
-                    case 'left':
-                        return 'Marge Gauche';
-                    case 'rigth':
-                        return 'Marge Droite';
-                    case 'bottom':
-                        return 'Marge Imferieure';
-                    case 'border-radius':
-                        return 'Niveau d\'arrondi';
-                    default:
-                        return property;
-                }
-            }
+           
             function get_specific_type(property){
                 switch(property){
                     case 'width':
@@ -561,37 +570,48 @@
                         return property;
                 }
             }
+
+            function update_bd_item($item){
+                $item = jQuery($item);
+                var id = $item.attr('id');
+                var int_id = parseInt(id.replace(prefix_object,'').trim());
+                var style = $item.attr('style');
+                if(jQuery("#"+id).hasClass('selected-item')){
+                    console.log($item.attr('style'));
+                    var data = {
+                        'action': 'visit_card_ajax_request',
+                        'object_id': int_id,
+                        'style': style,
+                        'function': 'update_style'
+                      };
+                    jQuery("#loading-frame").show();
+
+                      jQuery.post(ajaxurl, data, function(response) {
+                          }, 'json').always(function() {
+                        jQuery("#loading-frame").hide();
+                      });
+                }
+                
+            }
             function update_status_item($item, action){
                 $item = jQuery($item);
                 var id = $item.attr('id');
                 var int_id = parseInt(id.replace(prefix_object,'').trim());
+                $("#container-6").attr("data-selected-id",int_id);
+
+                jQuery(".item-frame.rect").removeClass('selected-item');
+                if(int_id)
+                    jQuery("#"+id).addClass('selected-item');
+                init_top_dashboard("#"+id);
+                return ;
+
                 $("#side-property").attr("data-selected-id",id.replace(prefix_object,'').trim());
-                
                 var node = elements.childs.find(function(item,index){if(item.id==int_id)return update_status_item});
                 if(node)
                     $("#target-inner").val(node.inner);
                 var style = $item.attr('style');
                 console.log($item.attr('style').split(";"));
-                $item.attr('style').split(";").forEach(function(item,index){
-                    var prop = item.trim().split(":");
-                    if(prop[0]!=='' && prop[0]!==null){
-                        var target = '#target-'+prop[0].trim();
-                        value=0;
-                        value = prop[1].trim().replace('px','');
-                        if(prop[0].trim() == 'backgound-color')
-                            console.log(prop[1].trim().replace('px',''));
-                        if(prop[0].trim() == 'font-family'){
-                            console.log(prop[1].trim().replace(' ','_'));
-                            value = prop[1].trim().replace(' ','_');
-                        }
-                        console.log(action+" - "+prop[0].trim());
-                        if(action === 'resize' && prop[0].trim() == 'font-family'){
-
-                        }else{
-                            jQuery(target).val(value);
-                        }
-                    }
-                });
+                
             }
             function initDragDrop($item, $minSize=[50,50],$maxSize=[500,400]){
                 $item.clayfy({
@@ -603,13 +623,13 @@
                         drag : function(){
                             // console.log( 'drag: ' + $item.width() + ' x '+ $item.height() +'<br>outer: ' + $item.outerWidth() + ' x '+ $item.outerHeight());
                             console.log("drag");
-                            //update_status_item($item, 'resize');
+                            // update_status_item($item, 'resize');
                         }
                         ,
                         drop : function(){
                             // console.log( 'drop: ' + $item.width() + ' x '+ $item.height() +'<br>outer: ' + $item.outerWidth() + ' x '+ $item.outerHeight());
                             console.log("drop");
-                            //update_database(true);
+                            // update_database(true);
                         },
                     callbacks : {
                         resize : function(){
@@ -617,6 +637,7 @@
                             // update_status_item($item);
                             //update_status_item($item, 'resize');
                             // update_database(true);
+
                         }
                     }
                 });
@@ -625,6 +646,9 @@
                 })
                 $item.click(function(){
                     update_status_item($item);
+                });
+                $item.mouseleave(function(){
+                    update_bd_item($item);
                 });
             }
             function closeModalVC(){
@@ -671,14 +695,17 @@
                         'style':'left:10px;top:10px;width:100px;height:100px;backgound:white;border-radius:0px;opacity:1;font-size:10px;'
                     },
                     success:function(data){
-                            jQuery("#"+prefix_object+tmp_id+" img").attr("src",href);
+                            // jQuery("#"+prefix_object+tmp_id+" img").attr("src",href);
 
-                            var new_id = data;
-                            jQuery("#"+prefix_object+tmp_id).attr("id",prefix_object+new_id);
-                            elements.childs.push(buildItem(new_id,'image',{
-                                style:'background-color:none;width:100px;height:100px;top:200px;left:300px;border-radius:20px;',
-                                src:href
-                            },null));
+                            // var new_id = data;
+                            // jQuery("#"+prefix_object+tmp_id).attr("id",prefix_object+new_id);
+                            // elements.childs.push(buildItem(new_id,'image',{
+                            //     style:'background-color:none;width:100px;height:100px;top:200px;left:300px;border-radius:20px;',
+                            //     src:href
+                            // },null));
+                            // jQuery("#loading-frame").hide();
+
+                             updateElementRoot();
                             jQuery("#loading-frame").hide();
                     },
                     error: function(data){
@@ -778,6 +805,10 @@
                     }, 
                     function(response) {
                         elements = response;
+                        jQuery("#container-6").html(
+                            '<div class="zone-fini"></div><div class="zone-tranquille"></div>'
+                        );
+                        
                         elements.childs.forEach(
                             function(item , index){
                                 var id = item.id;
@@ -844,8 +875,307 @@
                 parent_id = part_url.verso;
                 updateElementRoot();
             }
+
+            function loadCarton(){
+                jQuery(".frame-view").removeClass("vc-current");
+                jQuery("#frame-carton").addClass("vc-current");
+                parent_id = part_url.carton;
+                updateElementRoot();
+            }
+
+            function loadEtiquette(){
+                jQuery(".frame-view").removeClass("vc-current");
+                jQuery("#frame-etiquette").addClass("vc-current");
+                parent_id = part_url.etiquette;
+                updateElementRoot();
+            }
+            function initPropertyEvent(){
+                 /**
+                ** Update text
+                **/
+
+                jQuery("input#text-content").keydown(function(){
+
+                        var value = jQuery(this).val();
+                        update_text_inner(value );
+                });
+
+                jQuery("label.text-align-select").click(function(){
+                    jQuery(".text-align-select img").removeClass("active");
+                    jQuery("img",jQuery(this)).addClass("active");
+                    var value = jQuery(this).attr("value");
+                    update_property('text-align',value);
+                });
+                jQuery("#target-font-family").change(function(){
+                    var value = jQuery(this).val();
+                    value = value.replace(/_/gi," ");
+                    update_property('font-family',value );
+                });
+
+                jQuery("#target-font-size").change(function(){
+                    var value = jQuery(this).val();
+                    update_property('font-size',value.trim()+"px" );
+                });
+
+                jQuery("#target-line-height").change(function(){
+                    var value = jQuery(this).val();
+                    update_property('line-height',value.trim()+"px" );
+                });
+
+                jQuery("#target-letter-spacing").change(function(){
+                    var value = jQuery(this).val();
+                    update_property('letter-spacing',value.trim()+"px" );
+                });
+
+
+                jQuery("#target-background-color").change(function(){
+                    var value = jQuery(this).val();
+                    update_property('color',value.trim() );
+                });
+
+                jQuery("#font-weight-select").click(function(){
+                    var value = jQuery(this).val();
+                    if(jQuery("#font-weight-select img").hasClass('active')){
+                        jQuery("#font-weight-select img").removeClass('active');
+                        update_property('font-weight','200' );
+                    }else{
+                        jQuery("#font-weight-select img").addClass('active');
+                        update_property('font-weight','bold' );
+                    }
+                    
+                });
+
+                jQuery("#font-style-select").click(function(){
+                    var value = jQuery(this).val();
+                    if(jQuery("#font-style-select img").hasClass('active')){
+                        jQuery("#font-style-select img").removeClass('active');
+                        update_property('font-style','none' );
+                    }else{
+                        jQuery("#font-style-select img").addClass('active');
+                        update_property('font-style','italic' );
+                    }
+                    
+                });
+
+                jQuery("#text-decoration-select").click(function(){
+                    var value = jQuery(this).val();
+                    if(jQuery("#text-decoration-select img").hasClass('active')){
+                        jQuery("#text-decoration-select img").removeClass('active');
+                        update_property('font-style','none' );
+                    }else{
+                        jQuery("#text-decoration-select img").addClass('active');
+                        update_property('font-style','underline' );
+                    }
+                    
+                });
+
+                jQuery("#transform-select").click(function(){
+                    var value = jQuery(this).val();
+                    var id = parseInt(jQuery("#container-6").attr("data-selected-id"));
+                    var transform = jQuery("#"+prefix_object+id).css("transform");
+                    jQuery("#"+prefix_object+id).attr('style').split(';').forEach(function(item,index){ if( item.split(':')[0].trim() == 'transform' ){
+                        transform = item.split(':')[1].trim() ; 
+                        return item.split(':')[1].trim() ; 
+                    } })
+                    console.log(transform);
+                    if(transform ==undefined || transform == '' || transform == 'none')
+                        transform = 'rotate(0deg)'; 
+                    console.log(transform);
+                    transform = parseInt(transform.replace(/[a-zA-Z()]/gi,'').trim());
+                    console.log(transform);
+                    transform = (transform+ 10 )%360;
+                    console.log(transform);
+                    update_property('transform','rotate('+transform+'deg)' );
+                    if(transform>0){
+                        if(!jQuery("#transform-select img").hasClass('active'))
+                            jQuery("#transform-select img").addClass('active');
+                    }else{
+                        if(jQuery("#transform-select img").hasClass('active'))
+                            jQuery("#transform-select img").removeClass('active');
+                    }
+                    
+                });
+            }
+            var _e_;
+            function init_top_dashboard(target){
+                /**
+                ** Update text
+                **/
+                var text_ = jQuery(target).html();
+                if(jQuery(target).hasClass('item-text')){
+
+                    if(text_ != '' && text_ != undefined){
+                        if(!jQuery("#text-content").removeClass("active"))
+                            jQuery("#text-content").addClass("active");
+                        jQuery("#text-content").val(text_);
+                    }else{
+                        if(jQuery("#text-content").hasClass("active"))
+                            jQuery("#text-content").removeClass("active");
+                    }
+                }
+
+                 /**
+                ** update color
+                **/
+                var color = jQuery(target).css("color");
+                if(color != '' && color != undefined){
+                    color = color.trim();
+                    console.log("update color "+color);
+                    jQuery("#target-background-color").val(color);
+                }
+
+                /**
+                ** update text-align
+                **/
+                var text_align = jQuery(target).css("text-align");
+                if(text_align != '' && text_align != undefined){
+                    jQuery(".text-align-select img").removeClass("active");
+                    jQuery(".text-align-select[value="+text_align.trim()+"] img").addClass("active");
+                }
+
+                /**
+                ** update font-family
+                **/
+                var font_family = jQuery(target).css("font-family");
+                _e_ = font_family;
+                if(font_family != '' && font_family != undefined){
+                    font_family = font_family.replace(" ","_").replace(/"/gi,"").trim();
+                    jQuery("#target-font-family").val(font_family);
+                }
+                /**
+                ** update font-size
+                **/
+                var font_size = jQuery(target).css("font-size");
+                if(font_size != '' && font_size != undefined){
+                    font_size = font_size.replace(/[a-zA-Z]/gi,'').trim();
+                    console.log("update font-size"+font_size);
+                    jQuery("#target-font-size").val(font_size);
+                }
+                
+
+                /**
+                ** update line-height
+                **/
+                var letter_spacing = jQuery(target).css("letter-spacing");
+                if(letter_spacing != '' && letter_spacing != undefined){
+                    letter_spacing = letter_spacing.replace(/[a-zA-Z]/gi,'').trim();
+                    console.log("update letter-spacing "+font_height);
+                    jQuery("#target-letter-spacing").val(font_height);
+                }
+
+
+                /**
+                ** update line-height
+                **/
+                var font_height = jQuery(target).css("line-height");
+                if(font_height != '' && font_height != undefined){
+                    font_height = font_height.replace(/[a-zA-Z]/gi,'').trim();
+                    console.log("update font-size "+font_height);
+                    jQuery("#target-line-height").val(font_height);
+                }
+
+                /**
+                ** update line-height
+                **/
+                var font_weight = jQuery(target).css("font-weight");
+                if(font_weight != '' && font_weight != undefined){
+                    font_weight = font_weight.trim();
+                    console.log(font_weight);
+                    if(font_weight == 'bold' || font_weight == '700' || font_weight == '800'){
+                        if(!jQuery("#font-weight-select img").hasClass('active'))
+                            jQuery("#font-weight-select img").addClass('active');
+                    }else{
+                        if(jQuery("#font-weight-select img").hasClass('active'))
+                            jQuery("#font-weight-select img").removeClass('active');
+                    }
+                }else{
+                    if(jQuery("#font-weight-select img").hasClass('active')){
+                        jQuery("#font-weight-select img").removeClass('active');
+                     }
+                }
+
+                /**
+                ** update line-height
+                **/
+                var font_weight = jQuery(target).css("font-weight");
+                if(font_weight != '' && font_weight != undefined){
+                    font_weight = font_weight.trim();
+                    console.log(font_weight);
+                    if(font_weight == 'bold' || font_weight == '700' || font_weight == '800'){
+                        if(!jQuery("#font-weight-select img").hasClass('active'))
+                            jQuery("#font-weight-select img").addClass('active');
+                    }else{
+                        if(jQuery("#font-weight-select img").hasClass('active'))
+                            jQuery("#font-weight-select img").removeClass('active');
+                    }
+                }else{
+                    if(jQuery("#font-weight-select img").hasClass('active')){
+                        jQuery("#font-weight-select img").removeClass('active');
+                     }
+                }
+
+                /**
+                ** update font-style
+                **/
+                var font_style = jQuery(target).css("font-style");
+                if(font_style != '' && font_style != undefined){
+                    font_style = font_style.trim();
+                    if(font_style == 'italic'){
+                        if(!jQuery("#font-style-select img").hasClass('active'))
+                            jQuery("#font-style-select img").addClass('active');
+                    }else{
+                        if(jQuery("#font-style-select img").hasClass('active'))
+                            jQuery("#font-style-select img").removeClass('active');
+                    }
+                }else{
+                    if(jQuery("#font-style-select img").hasClass('active')){
+                        jQuery("#font-style-select img").removeClass('active');
+                     }
+                }
+                
+                /**
+                ** update text-decoration
+                **/
+                var font_style = jQuery(target).css("text-decoration");
+                if(font_style != '' && font_style != undefined){
+                    font_style = font_style.trim();
+                    if(font_style == 'underline'){
+                        if(!jQuery("#text-decoration-select img").hasClass('active'))
+                            jQuery("#text-decoration-select img").addClass('active');
+                    }else{
+                        if(jQuery("#text-decoration-select img").hasClass('active'))
+                            jQuery("#text-decoration-select img").removeClass('active');
+                    }
+                }else{
+                    if(jQuery("#text-decoration-select img").hasClass('active')){
+                        jQuery("#text-decoration-select img").removeClass('active');
+                     }
+                }
+
+                    
+                /**
+                ** transform: rotate(72deg);
+                ** update text-decoration
+                **/
+                var transform = jQuery(target).css("transform");
+                if(transform != '' && transform != undefined){
+                    transform = parseInt(transform.replace(/[a-zA-Z()]/gi,'').trim());
+                    if(transform > 0){
+                        if(!jQuery("#transform-select img").hasClass('active'))
+                            jQuery("#transform-select img").addClass('active');
+                    }else{
+                        if(jQuery("#transform-select img").hasClass('active'))
+                            jQuery("#transform-select img").removeClass('active');
+                    }
+                }else{
+                    if(jQuery("#transform-select img").hasClass('active')){
+                        jQuery("#transform-select img").removeClass('active');
+                     }
+                }
+            }
             function init(){
                 updateElementRoot();
+                initPropertyEvent();
                 /**
                 ** Upload image on frame
                 **/
@@ -857,6 +1187,8 @@
                         insertImage(id,src);
                     }
                 );
+
+
                 jQuery("#addTextToFrame").click(
                     function($this){
                        var item = jQuery("#text-input");
@@ -998,6 +1330,7 @@
     }
     button.btn {
         height: 40px;
+        padding: 0;
     }
     #side-property td svg {
         margin: 10px;
@@ -1023,6 +1356,84 @@
         -webkit-appearance: none;
         background-position: 100% 44%;
         background-size: 10px 10px;
+            padding-right: 20px;
+    }
+    .header ul li img.active {
+        background: white;
+        padding: 5px;
+    }
+    .header ul li img{
+        height: 100%;width: auto;
+        padding: 3px;
+    }
+
+        /* HIDE RADIO */
+    [type=radio] { 
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    /* IMAGE STYLES */
+    [type=radio] + img {
+      cursor: pointer;
+    }
+
+    /* CHECKED STYLES */
+    [type=radio]:checked + img {
+      outline: 2px solid #f00;
+      border: 2px solid #f00;
+    }
+    .item-frame.rect.selected-item {
+        border: 3px dashed #e89e16;
+    }
+    .select-small{
+        border: none;width: 35px;text-align: left;padding-left: 5px;height: 25px !important;margin-left: 35px;line-height: 24px !important;line-height: 39px;overflow: visible;font-size: 15px;background-color: #ffffff7d;padding: 2px
+    }
+    .zone-tranquille {    
+        border: 1px solid #de0a0a;
+        height: 99%;
+        width: 99%;
+        margin: 0.5%;
+        position: absolute;
+        top: 0;
+    }
+    .zone-fini {
+        border: 1px dashed black;
+        height: 98%;
+        width: 98%;
+        margin: 1%;
+    }
+    .zone-fini {
+        border: 1px dashed black;
+        height:calc(100% - 10px);
+        left: 0;
+        top: 0;
+        position: absolute;
+        margin: 5px;
+        width: calc(100% - 10px);
+    }
+    .zone-tranquille {
+        height:calc(100% - 20px);
+        left: 0;
+        top: 0;
+        position: absolute;
+        margin: 10px;
+        width: calc(100% - 20px);
+    }
+    .card-border hr.solid {
+        width: calc(100% - 95px);
+    }
+    .header-part{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 30px;
+        padding-bottom: 50px;
+    }
+    .main-content .rendering{
+        min-width: 700px;
     }
 </style>
-<?php get_footer(); ?>  
+<?php //get_footer(); ?>  

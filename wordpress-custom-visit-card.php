@@ -11,29 +11,48 @@
 	Author URI: http://www.ars-agency.com
 */
 
+define('WPCVC_PLUGIN_FILE',__FILE__);
 
-
-	define('WPCVC_PLUGIN_FILE',__FILE__);
-	define('WPCVC_DIR', plugin_dir_path(__FILE__));
+define('WPCVC_DIR', plugin_dir_path(__FILE__));
 	 
-	define('WPCVC_URL', plugin_dir_url(__FILE__));
+define('WPCVC_URL', plugin_dir_url(__FILE__));
 
-	define('WPCVC_API_URL_SITE', get_site_url() . "/");
+define('WPCVC_API_URL_SITE', get_site_url() . "/");
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-	class WpCustomVisitCard {
+class WpCustomVisitCard {
 		private $post_type;
 		private $post_status_template;
+		private $admin_page;
+		private $admin_menu;
+		private $admin_section;
 	    function __construct() {
 			$this->post_type = 'wp_custom_visit_card';
 			$this->post_status = 'template';
+			$this->admin_page = 'setting';
+			$this->admin_section = 'header_section';
+			$this->admin_menu = array( 
+				array(
+					'title' => 'General',
+					'url'=> '', 
+					'template'=> WPCVC_DIR.'admin/html/part/general.php', 
+					'callback' => array(&$this,"display_logo_form_element")
+				),
+				array(
+					'title' => 'Polices',
+					'url'=> 'police', 
+					'template'=> WPCVC_DIR.'admin/html/part/police.php',
+					'callback' => array(&$this,"display_ads_form_element")
+				),
+			 );
 			add_action( 'init', array(&$this,'register_post_types'), 0 );
 			add_shortcode( 'wpm-my-visit-card', array(&$this,'my_visit_card') );
 			add_shortcode( 'wpm-add-visit-card', array(&$this,'add_visit_card') );
 			add_shortcode( 'wpm-all-visit-card', array(&$this,'all_visit_card') );
+			add_shortcode( 'wpm-my-own-visit-card', array(&$this,'my_visit_create_card') );
 
 			add_action('add_meta_boxes', array(&$this,'wporg_add_custom_box'));
 			add_action('save_post', array(&$this,'wporg_save_postdata'));
@@ -47,8 +66,67 @@ error_reporting(E_ALL);
 			add_action( 'wp_ajax_visit_card_ajax_request', array(&$this,'ajax_callback') );
   			add_action( 'wp_ajax_nopriv_visit_card_ajax_request', array(&$this,'ajax_callback') );
 
-
+    		add_action("admin_init", array(&$this,"display_options"));
+    		add_action("admin_menu",  array(&$this,"add_new_menu_items"));
 	    }  
+
+	    /*WordPress Menus API.*/
+    function add_new_menu_items()
+    {
+
+	    add_submenu_page(
+	        'edit.php?post_type='.$this->post_type,
+	        __( 'Parametres' ),
+	        __( 'Parametres' ),
+	        'manage_woocommerce', // Required user capability
+	        $this->admin_page,
+	        array(&$this,"theme_options_page")
+	    );
+    }
+
+    function theme_options_page()
+    {
+       	if ( file_exists( WPCVC_DIR.'admin/html/plugin_option.php' ) ) {
+			include(WPCVC_DIR.'admin/html/plugin_option.php');
+		}
+    }
+
+
+
+    /*WordPress Settings API Demo*/
+
+    function display_options()
+    {
+        add_settings_section($this->admin_section, "Visit Cart Options",  array(&$this,"display_header_options_content"), "theme-options");
+        foreach ($this->admin_menu as $key => $value) {
+        	add_settings_field($value['url'], $value['title'],$value['callback'], "theme-options", $this->admin_section);
+        	register_setting($this->admin_section, $value['url']);
+        }
+    }
+
+    function display_header_options_content(){
+		if ( file_exists( WPCVC_DIR.'admin/html/plugin_option_menu.php' ) ) {
+			include(WPCVC_DIR.'admin/html/plugin_option_menu.php');
+		}
+    }
+    function display_logo_form_element()
+    {
+        //id and name of form element should be same as the setting name.
+        ?>
+            <input type="text" name="header_logo" id="header_logo" value="<?php echo get_option('header_logo'); ?>" />
+        <?php
+    }
+    function display_ads_form_element()
+    {
+        //id and name of form element should be same as the setting name.
+        ?>
+            <input type="text" name="advertising_code" id="advertising_code" value="<?php echo get_option('advertising_code'); ?>" />
+        <?php
+    }
+
+
+
+
 
 
 
@@ -260,37 +338,20 @@ error_reporting(E_ALL);
 		    }else if($module == "get_child_visit_cart_objet"){
 
 		    	$post_id = intval( $_GET['post_id'] );
-		    	$parent_id = wp_get_post_parent_id($post_id);
-		    	$defaults = array(
-		    				'numberposts'	=> 1,
-		    				'post_type'	 => $this->post_type,
-        	                'post_parent'  => $post_id,
-                            'suppress_filters' => true,
-                        );
-		    	$parent = new WP_Query( $defaults );
-		    	$child = 0;
-				if ( $parent->have_posts() ) :
-				    while ( $parent->have_posts() ) : $parent->the_post();
-				    	$child = get_the_ID();
-				    endwhile; 
-				endif; 
-				wp_reset_postdata();
-				if( !$parent_id ){
-					if( $child == 0 ){
+		    	$retour = array('recto' => $post_id ,'verso' => 0 ,'etiquette' => 0 , 'carton'=> 0);
 
-						$child =  $this->create_visit_cart_element(" VERSO ","publish", $post_id);
-						echo json_encode( array('recto' => $post_id ,'verso' => $child) );
+		    	foreach ($retour as $key => $value) {
+		    		if($key === 'recto')continue;
+		    		$type_template = get_post_meta($post_id,  '_'. $key.'_',  false )[0];
+				    if (!$type_template){
+				   		$type_template =  $this->create_visit_cart_element($key,"template", $post_id);
+						update_post_meta($post_id,  '_'. $key.'_', $type_template);
+				   	}
+				   	$retour[$key] = $type_template;
+		    	}
 
-					}else{
-
-						echo json_encode( array('recto' => $post_id ,'verso' => $child) );
-
-					}	
-				}else{
-
-					echo json_encode( array('recto' => $parent_id ,'verso' => $post_id) );
-
-				}
+				
+				echo json_encode( $retour );
 
 		    }else{
 		    	echo "No route found";
@@ -306,6 +367,11 @@ error_reporting(E_ALL);
 		        }
 		    }
 		    return $single;
+		}
+		function my_visit_create_card(){
+			 if ( file_exists( WPCVC_DIR.'template/html/my-visit-card.php' ) ) {
+					include(WPCVC_DIR.'template/html/my-visit-card.php');
+		        }
 		}
 		function add_cron_interval( $schedules ) {
 			 $schedules['daily'] = array(
@@ -351,17 +417,7 @@ error_reporting(E_ALL);
 		}
 	    function wporg_save_postdata($post_id)
 		{
-		    if (array_key_exists('postThematique', $_POST)) {
-		    	$metas = array("postThematique","postEmail","postPhone","postCountry","postTown","postDate","postHour","postVisibility");
-		    	
-		    	foreach ($_POST as $key => $value) {
-		    		if (in_array($key, $metas)) {
-					   update_post_meta($post_id,$key,$value);
-					}
-		    	}
-
-		        
-		    }
+		    
 		}
 		function wporg_add_custom_box()
 		{
@@ -381,56 +437,6 @@ error_reporting(E_ALL);
 		}
 		function meta_box_visit_card( $meta_boxes ) {
 			$prefix = 'visit_card_';
-
-			$meta_boxes[] = array(
-				'id' => 'meta',
-				'title' => esc_html__( 'Details', 'wp_custom_visit_card_manage' ),
-				'post_types' => array($this->post_type),
-				'context' => 'side',
-				'priority' => 'high',
-				'autosave' => 'false',
-				'fields' => array(
-					array(
-						'id' => $prefix . 'theme',
-						'type' => 'text',
-						'name' => esc_html__( 'Thematique', 'wp_custom_visit_card_manage' ),
-					),
-					array(
-						'id' => $prefix . 'email',
-						'name' => esc_html__( 'Email Organisateur', 'wp_custom_visit_card_manage' ),
-						'type' => 'email',
-					),
-					array(
-						'id' => $prefix . 'phone',
-						'type' => 'text',
-						'name' => esc_html__( 'Telephone Organisateur', 'wp_custom_visit_card_manage' ),
-					),
-					array(
-						'id' => $prefix . 'visible',
-						'name' => esc_html__( 'Rendre Visible', 'wp_custom_visit_card_manage' ),
-						'type' => 'radio',
-						'placeholder' => '',
-						'options' => array(esc_html__( 'Cacher###', '###Voir', 'wp_custom_visit_card_manage' ) ),
-						'inline' => 'true',
-						'std' => '1',
-					),
-					array(
-						'id' => $prefix . 'date',
-						'type' => 'date',
-						'name' => esc_html__( 'Date Programmation', 'wp_custom_visit_card_manage' ),
-					),
-					array(
-						'id' => $prefix . 'time',
-						'name' => esc_html__( 'Heure Programmation', 'wp_custom_visit_card_manage' ),
-						'type' => 'time',
-					),
-					array(
-						'id' => $prefix . 'gallery',
-						'type' => 'image_advanced',
-						'name' => esc_html__( 'Gallery', 'wp_custom_visit_card_manage' ),
-					),
-				),
-			);
 
 			return $meta_boxes;
 		}
