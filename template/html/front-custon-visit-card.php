@@ -10,9 +10,10 @@
 <link href="https://fonts.googleapis.com/css?family=Lobster+Two&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Jim+Nightshade&display=swap" rel="stylesheet">
 <div class="header-part">
-    <img id="color-wheel"  style="height: 90px;" src="<?php echo WPCVC_URL; ?>/assets/images/logo.jpg">
+    <img id="color-wheel"  style="height: 70px;" src="<?php echo WPCVC_URL; ?>/assets/images/logo.jpg">
 
 </div>
+<button class="quit"><a href="/">X Quitter</a></button>
 <main id="skip_content" role="main" style="position: relative;">
     <div class="">
         <div class="main-wrapper">
@@ -22,7 +23,7 @@
                     <ul style="position: relative;">
 
                          <li style="width: auto;height: 40px;align-items: center;">
-                           <select style="border: none;line-height: 45px;padding-right: 15px;" id="target-font-family" name="target-font-family"  class="updated">
+                           <select title="Police du text"  style="border: none;line-height: 45px;padding-right: 15px;" id="target-font-family" name="target-font-family"  class="updated">
                                 <option>Police</option>
                                 <option value="Dancing_Script">Dancing Script</option>
                                 <option value="Lobster_Two">Lobster Two</option>
@@ -122,7 +123,7 @@
                             <img title="Ajouter une image" onclick="addNewImage()" src="<?php echo WPCVC_URL; ?>/assets/images/ajout-image.png">
                         </li>
                         <li style="margin-left: 10px;">
-                            <img title="Ajouter une image" onclick="remove_object(true)"  src="<?php echo WPCVC_URL; ?>/assets/images/supprimer.png" >
+                            <img title="Supprimer l'element" onclick="remove_object(true)"  src="<?php echo WPCVC_URL; ?>/assets/images/supprimer.png" >
                         </li>
                     </ul>
                 </div>
@@ -130,7 +131,7 @@
                     <div class="side" style="height: max-content;">
                         <div class="zoom">
                             <div class="less"><span>-</span></div>
-                            <span class="text">ACTIONS</span>
+                            <span class="text">ZOOM</span>
                             <div class="more"><span>+</span></div>
                         </div>
                         <?php 
@@ -155,14 +156,16 @@
                             <hr class="solid" /><span>FORMAT FINI</span>
                         </div>
                         <div class="card-border">
-                            <hr class="dashed" /><span>ZONE TRANQUILLE</span>
+                            <hr class="dashed" /><span>ZONE TRANQUILLE
+                                <i>Ne pas ajouter de texte au dela de cette zone</i>
+                            </span>
                         </div>
                         <img id="loading-frame" src="https://i.ya-webdesign.com/images/loading-gif-png-5.gif" style="margin-left: 45%;width: 10%;margin-top: 30px;">
 
                     </div>
                     <div class="rendering">
                         <div class="container" id="container-6" selected="0"
-                                style="height: 100%;border: 4px solid #d5e8df;width: 100%;">
+                                style="height: 100%;border: 0px solid #d5e8df;width: 100%;">
                             <div class="zone-fini"></div>
                             <div class="zone-tranquille"></div>
                             
@@ -1395,7 +1398,7 @@
         border: 1px solid #de0a0a;
         height: 99%;
         width: 99%;
-        margin: 0.5%;
+        margin: 1.5%;
         position: absolute;
         top: 0;
     }
@@ -1403,7 +1406,7 @@
         border: 1px dashed black;
         height: 98%;
         width: 98%;
-        margin: 1%;
+        margin: .4%;
     }
     .zone-fini {
         border: 1px dashed black;
@@ -1422,8 +1425,12 @@
         margin: 10px;
         width: calc(100% - 20px);
     }
-    .card-border hr.solid {
-        width: calc(100% - 95px);
+    .card-border hr {
+        width: 65px;
+        margin-right: 5px;
+    }
+     .card-border span {
+            width: calc(100% - 65px);
     }
     .header-part{
         display: flex;
@@ -1434,6 +1441,13 @@
     }
     .main-content .rendering{
         min-width: 700px;
+    }
+    button.quit{
+        background: white;
+        padding: 5px 20px 5px 15px;
+        margin: 4px 0px 4px 15px;
+        border: 2px solid #bfbbbb;
+        color: #bfbbbb;
     }
 </style>
 <?php //get_footer(); ?>  
