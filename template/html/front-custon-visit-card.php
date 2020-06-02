@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="<?php echo WPCVC_URL; ?>/assets/dist/clayfy.min.css" type="text/css">
 <script src="<?php echo WPCVC_URL; ?>/assets/dist/vanilla-picker.js?123456"></script>
 <script src="https://unpkg.com/vanilla-picker@2.5"></script>
-<link href="http://fr.allfont.net/allfont.css?fonts=comic-sans-ms" rel="stylesheet" type="text/css" />
+<link href="https://fr.allfont.net/allfont.css?fonts=comic-sans-ms" rel="stylesheet" type="text/css" />
 <link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Lobster+Two&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Jim+Nightshade&display=swap" rel="stylesheet">
@@ -154,7 +154,7 @@
                         </div>
                         <div><input type="text" name="text-content" placeholder="Text" id="text-content" style="width: 100%;height: 30px;"></div>
                         <div>
-                            <button class="btn">ENREGISTRER <i class="fas fa-save"></i></button>
+                            <button class="btn" onclick="update_database(true)">ENREGISTRER <i class="fas fa-save"></i></button>
                             <button class="btn" onclick="generatePDF()">APERCU PDF <i class="fas fa-eye"></i></button>
                             <button class="btn" onclick="generateImage()">APERCU Image <i class="fas fa-eye"></i></button>
                             <button class="btn btn-add">AJOUTER AU PANIER</button>
