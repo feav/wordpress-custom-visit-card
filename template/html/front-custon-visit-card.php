@@ -762,8 +762,8 @@
                             list.append(image);
                         });
                         $(".gallery-selectable").click(
-                            function($this){
-                               var item = $($this.toElement);
+                            function(){
+                               var item = $(this);
                                var id = parseInt( item.attr("data-id") );
 
                                var item = gallery.find(function(item, index){if(item.id==id)return item })
@@ -1214,8 +1214,13 @@
             init();
         </script>
 <script type="text/javascript">
-    
-    if(true){
+    var debug = true;
+    <?php 
+        if(isset($_GET['debug'])){
+            echo 'debug = false;';
+        }
+    ?>
+    if(debug){
         document.addEventListener('contextmenu', event => event.preventDefault());
         var list = [0,0],i=0;
         document.body.addEventListener("keydown",function(e){
