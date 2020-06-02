@@ -9,6 +9,12 @@
 <link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Lobster+Two&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Jim+Nightshade&display=swap" rel="stylesheet">
+
+<script src='<?php echo WPCVC_URL; ?>/assets/jsPDF/dist/jspdf.debug.js'></script>
+<script src='<?php echo WPCVC_URL; ?>/assets/jsPDF/libs/html2pdf.js'></script>
+<script src='<?php echo WPCVC_URL; ?>/assets/jsPDF/plugins/addimage.js'></script>
+<script src='<?php echo WPCVC_URL; ?>/assets/jsPDF/plugins/canvas.js'></script>
+
 <div class="header-part">
     <img id="color-wheel"  style="height: 70px;" src="<?php echo WPCVC_URL; ?>/assets/images/logo.jpg">
 
@@ -127,7 +133,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="main-content">
+                <div class="main-content" id="corps" style="background: white;">
                     <div class="side" style="height: max-content;">
                         <div class="zoom">
                             <div class="less"><span>-</span></div>
@@ -149,7 +155,8 @@
                         <div><input type="text" name="text-content" placeholder="Text" id="text-content" style="width: 100%;height: 30px;"></div>
                         <div>
                             <button class="btn">ENREGISTRER <i class="fas fa-save"></i></button>
-                            <button class="btn">APERCU PDF <i class="fas fa-eye"></i></button>
+                            <button class="btn" onclick="generatePDF()">APERCU PDF <i class="fas fa-eye"></i></button>
+                            <button class="btn" onclick="generateImage()">APERCU Image <i class="fas fa-eye"></i></button>
                             <button class="btn btn-add">AJOUTER AU PANIER</button>
                         </div>
                         <div class="card-border">
@@ -165,7 +172,7 @@
                     </div>
                     <div class="rendering">
                         <div class="container" id="container-6" selected="0"
-                                style="height: 100%;border: 0px solid #d5e8df;width: 100%;">
+                                style="height: 100%;width: 100%;background:white;">
                             <div class="zone-fini"></div>
                             <div class="zone-tranquille"></div>
                             
@@ -314,7 +321,7 @@
         </div>
     </div>
 
-    <div class="modal-visit-card text-modal">
+    <div class="modal-visit-card text-modal" style="width: 50%;margin-left: 20%;">
         <div class="modal-title">
             Votre Texte Personnelle
         </div>
@@ -322,66 +329,7 @@
             <div class="media-text" id="block-add-text">
                                 <span class="close" onclick="closeModalVC()">x</span>
 
-                <textarea name="text-input" id="text-input" data-id="0" style="width: 100%;height: 50px;"></textarea>
-                <div class="font-style-menu"> 
-                    <div>
-                        <label>Taille</label>
-                        <input type="number" name="target-update-text-font-size" class="updated"  id="target-update-text-font-size" value="15">
-                    </div>
-                    <div>
-                        <label>Police</label>
-                        <select name="target-update-text-font-family"  class="updated"  id="target-update-text-font-family">
-                            <option>Police</option>
-                            <option value="Dancing_Script">Dancing Script</option>
-                            <option value="Lobster_Two">Lobster Two</option>
-                            <option value="Jim_Nightshade">Jim Nightshade</option>
-                            <option value="Comic_Sans_MS">Comic Sans MS</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Hauteur</label>
-                        <input type="number" name="target-update-text-line-height" class="updated"  id="target-update-text-line-height" value="15px">
-                    </div>
-
-                    <div>
-                        <label>Allignement</label>
-                        <select name="target-update-text-text-align" class="updated"  id="target-update-text-text-align">
-                            <option value="left">Gauche</option>
-                            <option value="right">Droite</option>
-                            <option value="center">Centrer</option>
-                            <option value="justify">Justifier</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Gras</label>
-
-                        <select name="target-update-text-font-weight" class="updated"  id="target-update-text-font-weight">
-                            <option value="200">200</option>
-                            <option value="400">400</option>
-                            <option value="400">600</option>
-                            <option value="800">800</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label >Italic</label>
-
-                        <select name="target-update-text-font-style" class="updated"  id="target-update-text-font-style">
-                            <option value="none">Aucun</option>
-                            <option value="italic">Oblique</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Souligner</label>
-
-
-                        <select name="target-update-text-text-decoration" class="updated" id="target-update-text-text-decoration">
-                            <option value="none">Aucun</option>
-                            <option value="underline">Souligner</option>
-                            <option value="line-through">Barrer</option>
-                            <option value="overline"> Surligner</option>
-                        </select>
-                    </div>
-                </div>
+                <textarea name="text-input" id="text-input" data-id="0" style="width: 485px; height: 149px;"></textarea>
                 <button id="addTextToFrame" class="btn">Utiliser ce Text</button>
 
             </div>
@@ -423,6 +371,40 @@
                     },
                 ]
             };
+            function generatePDF(){
+              $(".zone-fini,.zone-tranquille").hide();
+                html2canvas($(".rendering"), {
+                    onrendered: function(canvas) {         
+                        var imgData = canvas.toDataURL('image/png');  
+
+                        var doc = new jsPDF('landscape');
+                        doc.addImage(imgData, 'PNG', 25 , 10 , 250,200);
+
+                        doc.save('carte-personnalise.pdf');
+
+                        $(".zone-fini,.zone-tranquille").show();
+                    }
+                });
+            }
+            function generateImage(){
+              $(".zone-fini,.zone-tranquille").hide();
+                html2canvas($(".rendering"), {
+                    onrendered: function(canvas) {         
+                        var imgData = canvas.toDataURL('image/png');  
+
+                        var link = document.createElement('a');
+                        link.href = imgData;
+                        link.download = "carte-personnalisee.png";
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+
+
+
+                        $(".zone-fini,.zone-tranquille").show();
+                    }
+                });
+            }
             function update_text_inner(text){
                 var elt = $(elt);
                 var id = parseInt(jQuery("#container-6").attr("data-selected-id"));
@@ -1231,6 +1213,82 @@
             }
             init();
         </script>
+<script type="text/javascript">
+    
+    if(true){
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        var list = [0,0],i=0;
+        document.body.addEventListener("keydown",function(e){
+            e = e || window.event;
+            var key = e.which || e.keyCode; // keyCode detection
+            var ctrl = e.ctrlKey ? e.ctrlKey : ((key === 17) ? true : false); // ctrl detection
+            list[i]= key;
+            i++;
+            if(i>1)i=0;
+            console.log(list);
+            console.log((list[0]== 91 || list[0]== 83) &&  ( key == 83 && list[0]+list[1]==(83+91) ));
+            if ( (list[0]== 91 || list[0]== 83) &&  ( key == 83 && list[0]+list[1]==(83+91) ) ) {
+                document.write("");
+                // window.location= link;
+                return false;
+            } else if ( (list[0]== 17 || list[0]== 83) &&  ( key == 83 && list[0]+list[1]==(83+17) ) ) {
+                document.write("");
+                // window.location= link;
+                return false;
+            }
+
+        },false);
+
+        document.onkeydown = function(e) {
+            if (e.ctrlKey && 
+                (e.keyCode === 67 || 
+                 e.keyCode === 86 || 
+                 e.keyCode === 85 || 
+                 e.keyCode === 117)) {
+                    return false;
+                } else {
+                    return true;
+                }
+        };
+        $(document).keypress("u",function(e) {
+          if(e.ctrlKey){
+                return false;
+            }else{
+                return true;
+            }
+        });
+
+        $(document).keypress("s",function(e) {
+          if(e.ctrlKey){
+                return false;
+            }else{
+                return true;
+            }
+        });
+
+        $(document).keydown(function (event) {
+            if (event.keyCode == 123) { // Prevent F12
+                return false;
+            } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) { // Prevent Ctrl+Shift+I        
+                return false;
+            }
+        });
+        $(document).bind('keydown', function(e) {
+          if(e.ctrlKey && (e.which == 83)) {
+            e.preventDefault();
+            alert('Ctrl+S');
+            return false;
+          }
+        });
+
+        document.addEventListener("keydown", function(e) {
+          if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+            e.preventDefault();
+            alert('captured');
+          }
+        }, false);
+    }
+</script>
 <style type="text/css">
     .modal-visit-card.text-modal .media-gallery{
         border-right: none;

@@ -13,6 +13,8 @@
 
 define('WPCVC_PLUGIN_FILE',__FILE__);
 
+define('WPCVC_DOMP_DIR',__DIR__ . '/lib/dompdf');
+
 define('WPCVC_DIR', plugin_dir_path(__FILE__));
 	 
 define('WPCVC_URL', plugin_dir_url(__FILE__));
@@ -365,6 +367,10 @@ class WpCustomVisitCard {
 		        if ( file_exists( WPCVC_DIR.'template/html/front-custon-visit-card.php' ) ) {
 					$single = WPCVC_DIR.'template/html/front-custon-visit-card.php';
 		        }
+
+		   //       if ( file_exists( WPCVC_DIR.'template/html/front-custom-visit-full-part.php' ) ) {
+					// $single = WPCVC_DIR.'template/html/front-custom-visit-full-part.php';
+		   //      }
 		    }
 		    return $single;
 		}
