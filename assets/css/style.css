@@ -12,7 +12,7 @@ body {
 }
 
 .header {
-	background: rgb(213, 232, 223);
+	background: #d1ddbc;
 	height: 45px;
 }
 
@@ -94,7 +94,7 @@ body {
 	height: 70px;
 	width: 70px;	
 	text-align: center;
-	background: rgb(242, 248, 245);
+	background: #eff2dd;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -175,7 +175,7 @@ body {
 
 .btn.btn-add {
 	color: #FFF;
-	background: rgb(183, 220, 203);
+	background: #a9cca0;
 	border: none;
 }
 

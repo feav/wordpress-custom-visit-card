@@ -19,14 +19,16 @@
     <img id="color-wheel"  style="height: 70px;" src="<?php echo WPCVC_URL; ?>/assets/images/logo.jpg">
 
 </div>
-<button class="quit"><a href="/">X Quitter</a></button>
+<hr class="hr-top">
+<h2 class="title-echo"><?php echo get_the_title(); ?></h2>
+<button class="quit"><a class="quit-btn" href="/">X Quitter</a></button>
 <main id="skip_content" role="main" style="position: relative;">
     <div class="">
         <div class="main-wrapper">
             <link rel="stylesheet" href="<?php echo WPCVC_URL; ?>/assets/css/style.css">
             <main>
                 <div class="header">
-                    <ul style="position: relative;">
+                    <ul class="line-head">
 
                          <li style="width: auto;height: 40px;align-items: center;">
                            <select title="Police du text"  style="border: none;line-height: 45px;padding-right: 15px;" id="target-font-family" name="target-font-family"  class="updated">
@@ -45,7 +47,7 @@
                             <input type="color" name="target-background-color" style="opacity: 0;" id="target-background-color">
                         </li>
                         <li style="width: 60px;">
-                            <img style="width: 31px !important;" title="taille du text" src="<?php echo WPCVC_URL; ?>/assets/images/taille-texte.png">
+                            <img class="img-min-label" title="taille du text" src="<?php echo WPCVC_URL; ?>/assets/images/taille-texte.png">
                             <select class="select-small" id="target-font-size" name="target-font-size">
                                 <?php for($size=5 ; $size < 150 ; $size+=5){ ?>
                                 <?php echo "<option value='".$size."'>".$size."</option>"; ?>
@@ -57,17 +59,17 @@
                         
                         <li style="margin-left: 40px;margin-right: 0;">
                             <label value="left" id="font-weight-select" name="font-weight-select">
-                                <img title="Gras" alt="Gras" src="<?php echo WPCVC_URL; ?>/assets/images/bold.png">
+                                <img title="Gras" class="img-min-label"  alt="Gras" src="<?php echo WPCVC_URL; ?>/assets/images/bold.png">
                             </label>
                         </li>
                         <li style="margin-left: 0px;margin-right: 0;">
                             <label value="left" id="font-style-select" name="font-style-select">
-                                <img title="Italic"  src="<?php echo WPCVC_URL; ?>/assets/images/italic.png">
+                                <img title="Italic" class="img-min-label"   src="<?php echo WPCVC_URL; ?>/assets/images/italic.png">
                             </label>
                         </li>
                         <li style="margin-left: 0px;">
                             <label value="left" id="text-decoration-select" name="text-decoration-select">
-                                <img  title="Souligner" src="<?php echo WPCVC_URL; ?>/assets/images/underline.png">
+                                <img  title="Souligner" class="img-min-label"  src="<?php echo WPCVC_URL; ?>/assets/images/underline.png">
                             </label>
                         </li>
 
@@ -75,22 +77,22 @@
                         
                         <li style="margin-left: 40px;margin-right: 0;">
                             <label value="left" class="text-align-select">
-                                <img title="Gauche"  src="<?php echo WPCVC_URL; ?>/assets/images/gauche.png">
+                                <img title="Gauche" class="img-min-label"   src="<?php echo WPCVC_URL; ?>/assets/images/gauche.png">
                             </label>
                         </li>
                         <li style="margin-left: 0px;margin-right: 0;">
                             <label class="text-align-select" value="right"  >
-                                <img title="Droite"  src="<?php echo WPCVC_URL; ?>/assets/images/droite.png">
+                                <img title="Droite" class="img-min-label"  src="<?php echo WPCVC_URL; ?>/assets/images/droite.png">
                             </label>
                         </li>
                         <li style="margin-left: 0px;margin-right: 0;">
                             <label  class="text-align-select"  value="center">
-                                <img title="Centrer le texte" src="<?php echo WPCVC_URL; ?>/assets/images/centrer.png">
+                                <img title="Centrer le texte" class="img-min-label"  src="<?php echo WPCVC_URL; ?>/assets/images/centrer.png">
                             </label>
                         </li>
                         <li style="margin-left: 0px;">
                             <label value="justify" class="text-align-select">
-                                <img  title="Justifier" src="<?php echo WPCVC_URL; ?>/assets/images/justifier.png">
+                                <img  title="Justifier" class="img-min-label"  src="<?php echo WPCVC_URL; ?>/assets/images/justifier.png">
                             </label>
                         </li>
 
@@ -108,7 +110,7 @@
 
 
                         <li style="width: 60px;margin-left: 40px;">
-                            <img title="Interlignage" src="<?php echo WPCVC_URL; ?>/assets/images/interlignage.png">
+                            <img title="Interlignage"  class="img-min-label"  src="<?php echo WPCVC_URL; ?>/assets/images/interlignage.png">
                             <select class="select-small" id="target-line-height" name="target-line-height">
                                 <?php for($size=5 ; $size < 150 ; $size+=5){ ?>
                                 <?php echo "<option value='".$size."'>".$size."</option>"; ?>
@@ -118,18 +120,18 @@
 
 
                         <li style="margin-left: 40px;">
-                            <img title="Ajouter un text" onclick="addNewText()" src="<?php echo WPCVC_URL; ?>/assets/images/ajout-texte.png">
+                            <img title="Ajouter un text" class="img-min-label"  onclick="addNewText()" src="<?php echo WPCVC_URL; ?>/assets/images/ajout-texte.png">
                         </li>
                         <li style="margin-left: 10px;">
                              <label id="transform-select">
-                                <img alt="Rotation"  src="<?php echo WPCVC_URL; ?>/assets/images/rotation.png">
+                                <img alt="Rotation" class="img-min-label"  src="<?php echo WPCVC_URL; ?>/assets/images/rotation.png">
                             </label>
                         </li>
                         <li style="margin-left: 10px;">
-                            <img title="Ajouter une image" onclick="addNewImage()" src="<?php echo WPCVC_URL; ?>/assets/images/ajout-image.png">
+                            <img title="Ajouter une image"  onclick="addNewImage()" src="<?php echo WPCVC_URL; ?>/assets/images/ajout-image.png">
                         </li>
                         <li style="margin-left: 10px;">
-                            <img title="Supprimer l'element" onclick="remove_object(true)"  src="<?php echo WPCVC_URL; ?>/assets/images/supprimer.png" >
+                            <img title="Supprimer l'element" class="img-min-label"  onclick="remove_object(true)"  src="<?php echo WPCVC_URL; ?>/assets/images/supprimer.png" >
                         </li>
                     </ul>
                 </div>
@@ -152,7 +154,7 @@
                             <span  id="frame-carton" onclick="loadCarton()" class="item  frame-view">CARTON  REPAS</span>
                             <span  id="frame-etiquette" onclick="loadEtiquette()"  class="item frame-view">ETIQUETTE</span>
                         </div>
-                        <div><input type="text" name="text-content" placeholder="Text" id="text-content" style="width: 100%;height: 30px;"></div>
+                        <div><input type="text" name="text-content" placeholder="votre texte ici" id="text-content" style="width: 100%;height: 30px;text-align: center;"></div>
                         <div>
                             <button class="btn" onclick="update_database(true)">ENREGISTRER <i class="fas fa-save"></i></button>
                             <button class="btn" onclick="generatePDF()">APERCU PDF <i class="fas fa-eye"></i></button>
@@ -160,11 +162,11 @@
                             <button class="btn btn-add">AJOUTER AU PANIER</button>
                         </div>
                         <div class="card-border">
-                            <hr class="solid" /><span>FORMAT FINI</span>
+                            <hr class="solid" /><span class="span-part">FORMAT FINI</span>
                         </div>
                         <div class="card-border">
-                            <hr class="dashed" /><span>ZONE TRANQUILLE
-                                <i>Ne pas ajouter de texte au dela de cette zone</i>
+                            <hr class="dashed" /><span class="span-part">ZONE TRANQUILLE
+                                <span class="litle-title">Ne pas ajouter de texte au dela de cette zone</span>
                             </span>
                         </div>
                         <img id="loading-frame" src="https://i.ya-webdesign.com/images/loading-gif-png-5.gif" style="margin-left: 45%;width: 10%;margin-top: 30px;">
@@ -1392,7 +1394,7 @@
     }
     span.item.vc-current {
         cursor: not-allowed !important;
-        background: #d5e8df !important;
+        background: #a9cca0 !important;
     }
     button.btn {
         height: 40px;
@@ -1418,10 +1420,10 @@
         position: absolute;
     }
     select {
-        background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat;
+        background: url(https://i.imgur.com/wmG58xb.png) no-repeat;
         -webkit-appearance: none;
-        background-position: 100% 44%;
-        background-size: 10px 10px;
+        background-position: 90% 44%;
+        background-size: 8px 9px;
             padding-right: 20px;
     }
     .header ul li img.active {
@@ -1454,8 +1456,20 @@
     .item-frame.rect.selected-item {
         border: 3px dashed #e89e16;
     }
-    .select-small{
-        border: none;width: 35px;text-align: left;padding-left: 5px;height: 25px !important;margin-left: 35px;line-height: 24px !important;line-height: 39px;overflow: visible;font-size: 15px;background-color: #ffffff7d;padding: 2px
+    .select-small{    
+        border: none;
+        width: 35px;
+        text-align: left;
+        padding-left: 5px;
+        height: 25px !important;
+        margin-left: 35px;
+        line-height: 24px !important;
+        line-height: 39px;
+        overflow: visible;
+        font-size: 15px;
+        background-color: #ffffff61;
+        padding: 2px;
+        border-radius: 3px;
     }
     .zone-tranquille {    
         border: 1px solid #de0a0a;
@@ -1511,6 +1525,79 @@
         margin: 4px 0px 4px 15px;
         border: 2px solid #bfbbbb;
         color: #bfbbbb;
+    }
+    .litel-title{
+        font-size: 10px;
+        display: block;
+        width: 100%;
+        padding-top: 2px;
+    }
+    .hr-top{
+        height: 1px;
+        background: #bfb3b3;
+        margin-left: 10%;
+        margin-right: 10%;
+        border-top: 1px;
+        border-top-color: currentcolor;
+        border-color: #cecece;
+    }
+    .quit-btn{
+        text-decoration: none;
+        color: #7d7a7a;
+        text-transform: uppercase;
+        font-size: 10px;
+    }
+    .title-echo{
+        text-align: center;
+        color: #63584e;
+        padding: 20px 0 0 0;
+        font-family: sans-serif;
+        font-weight: 300;
+    }
+    .litle-title {
+        display: block;
+        width: 100% !important;
+    }
+    .header {
+        background: #d1ddbc;
+    }
+    .btn.btn-add {
+        background: #a9cca0;
+    }
+    .main-content .side .options .item {
+        background: #eff2dd;
+    }
+    .line-head{
+        position: relative;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        margin: auto;
+        position: relative;
+    }
+    .img-min-label{
+        width: 23px !important;
+        height: 23px !important;
+        min-height: 10px !important;
+    }
+    *{
+        font-family: sans-serif;
+    }
+    .span-part {
+        font-size: 12px;
+        padding-top: 10px;
+        padding-bottom: 5px;
+    }
+    .main-content .side .options .item{
+        font-size: 0.6em;
+    }
+
+    button.btn {
+        height: 40px;
+        padding: 0;
+    }
+    .btn {
+        font-size: 0.65em;
     }
 </style>
 <?php //get_footer(); ?>  
